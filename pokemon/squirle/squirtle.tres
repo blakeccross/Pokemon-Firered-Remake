@@ -1,0 +1,24 @@
+[gd_resource type="Resource" load_steps=6 format=2]
+
+[ext_resource path="res://pokemon/pokemon_model.gd" type="Script" id=1]
+[ext_resource path="res://moves/spike/spike.tres" type="Resource" id=2]
+[ext_resource path="res://pokemon/squirle/squirtle_battle_graphic.tscn" type="PackedScene" id=3]
+[ext_resource path="res://moves/horn/horn.tres" type="Resource" id=4]
+[ext_resource path="res://moves/fire/burn.tres" type="Resource" id=5]
+
+[resource]
+script = ExtResource( 1 )
+name = "Squirtle"
+level = 16
+hp = 20
+max_hp = 20
+xp = 3
+exp_stat = 6
+attack = 26
+defense = 10
+speed = 10
+wild = false
+moves = [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 5 ) ]
+moves_to_learn = {
+}
+battle_graphics = ExtResource( 3 )

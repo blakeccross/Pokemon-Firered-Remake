@@ -1,0 +1,143 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "Control",
+"class": "Menu",
+"language": "GDScript",
+"path": "res://Battle/menu.gd"
+}, {
+"base": "Node2D",
+"class": "MoveGraphic",
+"language": "GDScript",
+"path": "res://moves/move_graphic.gd"
+}, {
+"base": "Resource",
+"class": "MoveModel",
+"language": "GDScript",
+"path": "res://moves/move_model.gd"
+}, {
+"base": "Resource",
+"class": "NPCModel",
+"language": "GDScript",
+"path": "res://npc_model.gd"
+}, {
+"base": "Node2D",
+"class": "PlayerGraphic",
+"language": "GDScript",
+"path": "res://NPC/red/player_graphic.gd"
+}, {
+"base": "Resource",
+"class": "PokemonModel",
+"language": "GDScript",
+"path": "res://pokemon/pokemon_model.gd"
+}, {
+"base": "Resource",
+"class": "TextModel",
+"language": "GDScript",
+"path": "res://text_model.gd"
+}, {
+"base": "Node2D",
+"class": "TrainerGraphic",
+"language": "GDScript",
+"path": "res://NPC/trainer_graphic.gd"
+}, {
+"base": "Tween",
+"class": "TweenEx",
+"language": "GDScript",
+"path": "res://world/Tween.gd"
+} ]
+_global_script_class_icons={
+"Menu": "",
+"MoveGraphic": "",
+"MoveModel": "",
+"NPCModel": "",
+"PlayerGraphic": "",
+"PokemonModel": "",
+"TextModel": "",
+"TrainerGraphic": "",
+"TweenEx": ""
+}
+
+[application]
+
+config/name="Pokemon Fire Red Remake"
+run/main_scene="res://SceneManager.tscn"
+
+[autoload]
+
+Utils="*res://Autoload/utils.gd"
+
+[display]
+
+window/size/width=240
+window/size/height=160
+window/size/test_width=1200
+window/size/test_height=800
+window/stretch/mode="2d"
+window/stretch/aspect="keep"
+
+[importer_defaults]
+
+texture={
+"compress/bptc_ldr": 0,
+"compress/hdr_mode": 0,
+"compress/lossy_quality": 0.7,
+"compress/mode": 0,
+"compress/normal_map": 0,
+"detect_3d": false,
+"flags/anisotropic": false,
+"flags/filter": false,
+"flags/mipmaps": false,
+"flags/repeat": 0,
+"flags/srgb": 2,
+"process/HDR_as_SRGB": false,
+"process/fix_alpha_border": true,
+"process/invert_color": false,
+"process/premult_alpha": false,
+"size_limit": 0,
+"stream": false,
+"svg/scale": 1.0
+}
+
+[input]
+
+enter={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777221,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+x={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":88,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+menu={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777221,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+z={
+"deadzone": 0.5,
+"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":90,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
+ ]
+}
+
+[layer_names]
+
+2d_physics/layer_1="Player"
+2d_physics/layer_2="World"
+2d_physics/layer_3="Ledge"
+2d_physics/layer_4="Door"
+
+[rendering]
+
+2d/snapping/use_gpu_pixel_snap=true
+quality/2d/use_pixel_snap=true

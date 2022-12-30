@@ -1,0 +1,241 @@
+[gd_scene load_steps=18 format=2]
+
+[ext_resource path="res://Battle/wild_battle.gd" type="Script" id=1]
+[ext_resource path="res://NPC/red/red.tres" type="Resource" id=2]
+[ext_resource path="res://world/pokemon_info_player.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Battle/pokemon_list.tscn" type="PackedScene" id=4]
+[ext_resource path="res://world/Tween.gd" type="Script" id=5]
+[ext_resource path="res://Battle/menu.gd" type="Script" id=6]
+[ext_resource path="res://Battle/info.tscn" type="PackedScene" id=7]
+[ext_resource path="res://world/menu_button.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Battle/graphic.gd" type="Script" id=10]
+[ext_resource path="res://Battle/info_box.gd" type="Script" id=11]
+[ext_resource path="res://Assets/UI/menu_box_1.png" type="Texture" id=12]
+[ext_resource path="res://Assets/battle/battle_BG_1.png" type="Texture" id=13]
+[ext_resource path="res://Assets/battle/battle_platform_1.png" type="Texture" id=14]
+[ext_resource path="res://world/pokemon_info_enemy.tscn" type="PackedScene" id=15]
+[ext_resource path="res://Battle/set_pokemon.gd" type="Script" id=17]
+
+[sub_resource type="Theme" id=1]
+
+[sub_resource type="StyleBoxEmpty" id=2]
+
+[node name="battle" type="Control"]
+margin_right = 240.0
+margin_bottom = 160.0
+script = ExtResource( 1 )
+player = ExtResource( 2 )
+
+[node name="BattleBg1" type="Sprite" parent="."]
+position = Vector2( 128, 80 )
+scale = Vector2( 1.42857, 1.42857 )
+texture = ExtResource( 13 )
+
+[node name="tween" type="Tween" parent="."]
+script = ExtResource( 5 )
+
+[node name="enemy" type="Position2D" parent="."]
+position = Vector2( 176, 32 )
+script = ExtResource( 17 )
+
+[node name="BattlePlatform1" type="Sprite" parent="enemy"]
+position = Vector2( 0, 40 )
+texture = ExtResource( 14 )
+
+[node name="pokemon" parent="enemy" instance_placeholder="res://pokemon/squirle/squirtle_battle_graphic.tscn"]
+position = Vector2( -8, 24 )
+
+[node name="pokemon_position" type="Position2D" parent="enemy"]
+position = Vector2( 0, 32 )
+
+[node name="stats" parent="enemy" instance=ExtResource( 15 )]
+visible = false
+position = Vector2( -160, -16 )
+
+[node name="player" type="Position2D" parent="."]
+position = Vector2( 56, 80 )
+script = ExtResource( 10 )
+
+[node name="BattlePlatform1" type="Sprite" parent="player"]
+position = Vector2( 8, 40 )
+texture = ExtResource( 14 )
+
+[node name="pokemon_position" type="Position2D" parent="player"]
+position = Vector2( 0, 32 )
+
+[node name="trainer" parent="player" instance_placeholder="res://NPC/blue/blue_trainer_graphic.tscn"]
+scale = Vector2( 1.2, 1.2 )
+
+[node name="stats" parent="player" instance=ExtResource( 3 )]
+visible = false
+position = Vector2( 70, -8.48 )
+
+[node name="info" parent="." instance=ExtResource( 7 )]
+margin_top = 112.0
+margin_right = 240.0
+script = ExtResource( 11 )
+
+[node name="action_menu" type="PanelContainer" parent="."]
+visible = false
+margin_left = 120.0
+margin_top = 112.0
+margin_right = 240.0
+margin_bottom = 160.0
+theme = SubResource( 1 )
+custom_styles/panel = SubResource( 2 )
+script = ExtResource( 6 )
+menu_items = [ NodePath("m/m/rows/col_1/fight"), NodePath("m/m/rows/col_1/item"), NodePath("m/m/rows/col_2/pokemon"), NodePath("m/m/rows/col_2/run") ]
+
+[node name="m" type="NinePatchRect" parent="action_menu"]
+margin_right = 120.0
+margin_bottom = 48.0
+texture = ExtResource( 12 )
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="m" type="MarginContainer" parent="action_menu/m"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_left = 6.0
+margin_top = 6.0
+margin_right = -6.0
+margin_bottom = -6.0
+
+[node name="rows" type="HBoxContainer" parent="action_menu/m/m"]
+margin_right = 108.0
+margin_bottom = 36.0
+
+[node name="col_1" type="VBoxContainer" parent="action_menu/m/m/rows"]
+margin_right = 45.0
+margin_bottom = 36.0
+custom_constants/separation = 9
+
+[node name="fight" parent="action_menu/m/m/rows/col_1" instance=ExtResource( 8 )]
+margin_right = 45.0
+margin_bottom = 10.0
+capitalize = true
+selected = true
+
+[node name="item" parent="action_menu/m/m/rows/col_1" instance=ExtResource( 8 )]
+margin_top = 19.0
+margin_right = 45.0
+margin_bottom = 29.0
+capitalize = true
+text = "item"
+
+[node name="col_2" type="VBoxContainer" parent="action_menu/m/m/rows"]
+margin_left = 49.0
+margin_right = 108.0
+margin_bottom = 36.0
+custom_constants/separation = 9
+
+[node name="pokemon" parent="action_menu/m/m/rows/col_2" instance=ExtResource( 8 )]
+margin_right = 59.0
+margin_bottom = 10.0
+capitalize = true
+text = "Pokemon"
+
+[node name="run" parent="action_menu/m/m/rows/col_2" instance=ExtResource( 8 )]
+margin_top = 19.0
+margin_right = 59.0
+margin_bottom = 29.0
+capitalize = true
+text = "run"
+
+[node name="fight_menu" type="PanelContainer" parent="."]
+visible = false
+margin_left = 128.0
+margin_top = 104.0
+margin_right = 240.0
+margin_bottom = 160.0
+theme = SubResource( 1 )
+custom_styles/panel = SubResource( 2 )
+script = ExtResource( 6 )
+
+[node name="m" type="NinePatchRect" parent="fight_menu"]
+margin_right = 112.0
+margin_bottom = 56.0
+texture = ExtResource( 12 )
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="m" type="MarginContainer" parent="fight_menu/m"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="col_1" type="VBoxContainer" parent="fight_menu/m/m"]
+margin_right = 112.0
+margin_bottom = 56.0
+
+[node name="yes_no_menu" type="PanelContainer" parent="."]
+visible = false
+margin_top = 64.0
+margin_right = 88.0
+margin_bottom = 104.0
+theme = SubResource( 1 )
+custom_styles/panel = SubResource( 2 )
+script = ExtResource( 6 )
+
+[node name="m" type="NinePatchRect" parent="yes_no_menu"]
+margin_right = 88.0
+margin_bottom = 40.0
+texture = ExtResource( 12 )
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="m" type="MarginContainer" parent="yes_no_menu/m"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="col_1" type="VBoxContainer" parent="yes_no_menu/m/m"]
+margin_right = 88.0
+margin_bottom = 40.0
+
+[node name="yes" parent="yes_no_menu/m/m/col_1" instance=ExtResource( 8 )]
+margin_right = 88.0
+capitalize = true
+text = "yes"
+selected = true
+
+[node name="no" parent="yes_no_menu/m/m/col_1" instance=ExtResource( 8 )]
+margin_top = 14.0
+margin_right = 88.0
+capitalize = true
+text = "no"
+selected = true
+
+[node name="items" type="PanelContainer" parent="."]
+visible = false
+margin_left = 88.0
+margin_top = 16.0
+margin_right = 240.0
+margin_bottom = 104.0
+theme = SubResource( 1 )
+custom_styles/panel = SubResource( 2 )
+script = ExtResource( 6 )
+
+[node name="m" type="NinePatchRect" parent="items"]
+margin_right = 152.0
+margin_bottom = 88.0
+texture = ExtResource( 12 )
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="m" type="MarginContainer" parent="items/m"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="col_1" type="VBoxContainer" parent="items/m/m"]
+margin_right = 152.0
+margin_bottom = 88.0
+
+[node name="pokemon_list" parent="." instance=ExtResource( 4 )]
+visible = false

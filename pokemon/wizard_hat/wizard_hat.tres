@@ -1,0 +1,22 @@
+[gd_resource type="Resource" load_steps=4 format=2]
+
+[ext_resource path="res://pokemon/pokemon_model.gd" type="Script" id=1]
+[ext_resource path="res://moves/spike/spike.tres" type="Resource" id=2]
+[ext_resource path="res://pokemon/wizard_hat/wizard_hat_battle_graphic.tscn" type="PackedScene" id=3]
+
+[resource]
+script = ExtResource( 1 )
+name = "Wizard Hat"
+level = 1
+hp = 5
+max_hp = 5
+xp = 1
+exp_stat = 6
+attack = 1
+defense = 1
+speed = 1
+wild = false
+moves = [ ExtResource( 2 ) ]
+moves_to_learn = {
+}
+battle_graphics = ExtResource( 3 )

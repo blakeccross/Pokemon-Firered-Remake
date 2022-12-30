@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/Pokemon FireRed & LeafGreen OST - Professor Oak's Laboratory.mp3-c206a79d318d2d852d7af79bdd307133.mp3str"
+
+[deps]
+
+source_file="res://Assets/Buildings/pallet town/Pokemon FireRed & LeafGreen OST - Professor Oak's Laboratory.mp3"
+dest_files=[ "res://.import/Pokemon FireRed & LeafGreen OST - Professor Oak's Laboratory.mp3-c206a79d318d2d852d7af79bdd307133.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

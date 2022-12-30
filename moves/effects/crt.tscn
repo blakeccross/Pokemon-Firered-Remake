@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://moves/effects/invert.gd" type="Script" id=1]
+
+[sub_resource type="Shader" id=1]
+code = "shader_type canvas_item;
+
+void fragment()
+{
+	vec2 uv = SCREEN_UV;
+
+	vec4 blur  = texture(SCREEN_TEXTURE, uv, 3);
+	vec4 clear = texture(SCREEN_TEXTURE, uv, 0);
+	clear.a = sin((uv.y * 0.001 * 500.0) * 4000.0);
+
+	vec4 color = mix(blur, clear, blur.r);
+
+	COLOR = color;
+}"
+
+[sub_resource type="ShaderMaterial" id=2]
+shader = SubResource( 1 )
+
+[node name="invert" type="ColorRect"]
+material = SubResource( 2 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}

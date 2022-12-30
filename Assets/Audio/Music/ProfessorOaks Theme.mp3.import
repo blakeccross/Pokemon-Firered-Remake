@@ -1,0 +1,15 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+path="res://.import/ProfessorOaks Theme.mp3-9e5f94cd166d05349ff1973c96037585.mp3str"
+
+[deps]
+
+source_file="res://Assets/Audio/Music/ProfessorOaks Theme.mp3"
+dest_files=[ "res://.import/ProfessorOaks Theme.mp3-9e5f94cd166d05349ff1973c96037585.mp3str" ]
+
+[params]
+
+loop=true
+loop_offset=0

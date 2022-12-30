@@ -1,0 +1,745 @@
+[gd_scene load_steps=45 format=2]
+
+[ext_resource path="res://Assets/Player/Male_Spritesheet.png" type="Texture" id=1]
+[ext_resource path="res://Assets/Player/player_shadow.png" type="Texture" id=3]
+[ext_resource path="res://Assets/Player/!_2.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Player/!_1.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Player/!_3.png" type="Texture" id=6]
+
+[sub_resource type="GDScript" id=39]
+script/source = "extends KinematicBody2D
+
+signal player_moving_signal
+signal player_stopped_signal
+
+signal player_entering_door_signal
+signal player_entered_door_signal
+
+const LandingDustEffect = preload(\"res://world/LandingDustEffect.tscn\")
+
+export var walk_speed = 4.0
+export var jump_speed = 4.0
+export(Resource) var trainer
+
+const TILE_SIZE = 16
+
+onready var anim_tree = $AnimationTree
+onready var anim_state = anim_tree.get(\"parameters/playback\")
+onready var ray = $BlockingRayCast2D
+onready var ledge_ray = $LedgeRayCast2D
+onready var door_ray = $DoorRayCast2D
+
+onready var shadow = $Shadow
+var jumping_over_ledge: bool = false
+
+enum PlayerState { IDLE, TURNING, WALKING }
+enum FacingDirection { LEFT, RIGHT, UP, DOWN }
+
+var player_state = PlayerState.IDLE
+var facing_direction = FacingDirection.DOWN
+
+var initial_position = Vector2(0, 0)
+var input_direction = Vector2(0, 1)
+var is_moving = false
+var stop_input: bool = false
+var percent_moved_to_next_tile = 0.0
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	$Sprite.visible = true
+	anim_tree.active = true
+	initial_position = position
+	shadow.visible = false
+	anim_tree.set(\"parameters/Idle/blend_position\", input_direction)
+	anim_tree.set(\"parameters/Walk/blend_position\", input_direction)
+	anim_tree.set(\"parameters/Turn/blend_position\", input_direction)
+	
+func set_spawn(location: Vector2, direction: Vector2):
+		anim_tree.set(\"parameters/Idle/blend_position\", direction)
+		anim_tree.set(\"parameters/Walk/blend_position\", direction)
+		anim_tree.set(\"parameters/Turn/blend_position\", direction)
+		position = location
+	
+func _physics_process(delta):
+	if player_state == PlayerState.TURNING or stop_input:
+		return
+	elif is_moving == false:
+		process_player_movement_input()
+	elif input_direction != Vector2.ZERO:
+		anim_state.travel(\"Walk\")
+		move(delta)
+	else:
+		anim_state.travel(\"Idle\")
+		is_moving = false
+
+func process_player_movement_input():
+	if input_direction.y == 0:
+		input_direction.x = int(Input.is_action_pressed(\"ui_right\")) - int(Input.is_action_pressed(\"ui_left\"))
+	if input_direction.x == 0:
+		input_direction.y = int(Input.is_action_pressed(\"ui_down\")) - int(Input.is_action_pressed(\"ui_up\"))
+		
+	if input_direction != Vector2.ZERO:
+		anim_tree.set(\"parameters/Idle/blend_position\", input_direction)
+		anim_tree.set(\"parameters/Walk/blend_position\", input_direction)
+		anim_tree.set(\"parameters/Turn/blend_position\", input_direction)
+		
+		if need_to_turn():
+			player_state = PlayerState.TURNING
+			anim_state.travel(\"Turn\")
+		else:
+			initial_position = position
+			is_moving = true
+	else:
+		anim_state.travel(\"Idle\")
+		
+func need_to_turn():
+	var new_facing_direction
+	if input_direction.x < 0:
+		new_facing_direction = FacingDirection.LEFT
+	elif input_direction.x > 0:
+		new_facing_direction = FacingDirection.RIGHT
+	elif input_direction.y < 0:
+		new_facing_direction = FacingDirection.UP
+	elif input_direction.y > 0:
+		new_facing_direction = FacingDirection.DOWN
+	
+	if facing_direction != new_facing_direction:
+		facing_direction = new_facing_direction
+		return true
+	facing_direction = new_facing_direction
+	return false
+
+func finished_turning():
+	player_state = PlayerState.IDLE
+	
+func entered_door():
+	emit_signal(\"player_entered_door_signal\")
+	
+func surprise():
+	var surprise = get_node(\"surprise\")
+	surprise.visible = true
+	surprise.play()
+	yield(get_tree().create_timer(2), \"timeout\")
+	surprise.visible = false
+
+func move(delta):
+	var desired_step: Vector2 = input_direction * TILE_SIZE / 2
+	ray.cast_to = desired_step
+	ray.force_raycast_update()
+	
+	ledge_ray.cast_to = desired_step
+	ledge_ray.force_raycast_update()
+	
+	door_ray.cast_to = desired_step
+	door_ray.force_raycast_update()
+	
+	if door_ray.is_colliding():
+		if percent_moved_to_next_tile == 0.0:
+			emit_signal(\"player_entering_door_signal\")
+		percent_moved_to_next_tile += walk_speed * delta
+		if percent_moved_to_next_tile >= 1.0:
+			position = initial_position + (input_direction * TILE_SIZE)
+			percent_moved_to_next_tile = 0.0
+			is_moving = false
+			stop_input = true
+			$AnimationPlayer.play(\"Disappear\")
+			$Camera2D.clear_current()
+		else:
+			position = initial_position + (input_direction * TILE_SIZE * percent_moved_to_next_tile)
+		
+	elif (ledge_ray.is_colliding() && input_direction == Vector2(0, 1)) or jumping_over_ledge:
+		percent_moved_to_next_tile += jump_speed * delta
+		if percent_moved_to_next_tile >= 2.0:
+			position = initial_position + (input_direction * TILE_SIZE * 2)
+			percent_moved_to_next_tile = 0.0
+			is_moving = false
+			jumping_over_ledge = false
+			shadow.visible = false
+			
+			var dust_effect = LandingDustEffect.instance()
+			dust_effect.position = position
+			get_tree().current_scene.add_child(dust_effect)
+			
+		else:
+			shadow.visible = true
+			jumping_over_ledge = true
+			var input = input_direction.y * TILE_SIZE * percent_moved_to_next_tile
+			position.y = initial_position.y + (-0.96 - 0.53 * input + 0.05 * pow(input, 2))
+		
+	elif !ray.is_colliding():
+		if percent_moved_to_next_tile == 0:
+			emit_signal(\"player_moving_signal\")
+		percent_moved_to_next_tile += walk_speed * delta
+		if percent_moved_to_next_tile >= 1.0:
+			position = initial_position + (input_direction * TILE_SIZE)
+			percent_moved_to_next_tile = 0.0
+			is_moving = false
+			emit_signal(\"player_stopped_signal\")
+		else:
+			position = initial_position + (input_direction * TILE_SIZE * percent_moved_to_next_tile)
+	else:
+		is_moving = false
+		
+func cutscene_input_action_pressed(directions):
+	for d in directions:
+		is_moving = true
+		if d == \"DOWN\":
+			input_direction = Vector2.DOWN
+		elif d == \"UP\":
+			input_direction = Vector2.UP
+		elif d == \"LEFT\":
+			input_direction = Vector2.LEFT
+		elif d == \"RIGHT\":
+			input_direction = Vector2.RIGHT
+
+		anim_tree.set(\"parameters/Idle/blend_position\", input_direction)
+		anim_tree.set(\"parameters/Walk/blend_position\", input_direction)
+		anim_tree.set(\"parameters/Turn/blend_position\", input_direction)
+		initial_position = position
+		yield(get_node(\".\"), \"player_stopped_signal\")
+
+func cutscene_turn_player(directions):
+	for d in directions:
+		is_moving = false
+		player_state = PlayerState.TURNING
+		anim_state.travel(\"Turn\")
+		if d == \"TURN DOWN\":
+			input_direction = Vector2.DOWN
+		elif d == \"TURN UP\":
+			input_direction = Vector2.UP
+		elif d == \"TURN LEFT\":
+			input_direction = Vector2.LEFT
+		elif d == \"TURN RIGHT\":
+			input_direction = Vector2.RIGHT
+
+		anim_tree.set(\"parameters/Idle/blend_position\", input_direction)
+		anim_tree.set(\"parameters/Walk/blend_position\", input_direction)
+		anim_tree.set(\"parameters/Turn/blend_position\", input_direction)
+		initial_position = position
+"
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 8, 8 )
+
+[sub_resource type="Animation" id=2]
+resource_name = "Disappear"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "entered_door"
+} ]
+}
+
+[sub_resource type="Animation" id=3]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 1 ]
+}
+
+[sub_resource type="Animation" id=4]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 7 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=5]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 7 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=6]
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ 4 ]
+}
+
+[sub_resource type="Animation" id=7]
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "finished_turning"
+} ]
+}
+
+[sub_resource type="Animation" id=8]
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 6, 7 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "finished_turning"
+} ]
+}
+
+[sub_resource type="Animation" id=9]
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 6, 7 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+tracks/2/type = "method"
+tracks/2/path = NodePath(".")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "finished_turning"
+} ]
+}
+
+[sub_resource type="Animation" id=10]
+length = 0.1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.05 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 3, 4 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.1 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "finished_turning"
+} ]
+}
+
+[sub_resource type="Animation" id=11]
+length = 0.8
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 0, 1, 2, 1 ]
+}
+
+[sub_resource type="Animation" id=12]
+length = 0.8
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 6, 7, 8, 7 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
+
+[sub_resource type="Animation" id=13]
+length = 0.8
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 6, 7, 8, 7 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath("Sprite:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ true ]
+}
+
+[sub_resource type="Animation" id=14]
+length = 0.8
+loop = true
+step = 0.2
+tracks/0/type = "value"
+tracks/0/path = NodePath("Sprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.2, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 1,
+"values": [ 3, 4, 5, 4 ]
+}
+
+[sub_resource type="AnimationNodeAnimation" id=15]
+animation = "IdleLeft"
+
+[sub_resource type="AnimationNodeAnimation" id=16]
+animation = "IdleRight"
+
+[sub_resource type="AnimationNodeAnimation" id=17]
+animation = "IdleDown"
+
+[sub_resource type="AnimationNodeAnimation" id=18]
+animation = "IdleUp"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=19]
+blend_point_0/node = SubResource( 15 )
+blend_point_0/pos = Vector2( -1, 0 )
+blend_point_1/node = SubResource( 16 )
+blend_point_1/pos = Vector2( 1, 0 )
+blend_point_2/node = SubResource( 17 )
+blend_point_2/pos = Vector2( 0, 1 )
+blend_point_3/node = SubResource( 18 )
+blend_point_3/pos = Vector2( 0, -1 )
+blend_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id=20]
+animation = "TurnLeft"
+
+[sub_resource type="AnimationNodeAnimation" id=21]
+animation = "TurnRight"
+
+[sub_resource type="AnimationNodeAnimation" id=22]
+animation = "TurnDown"
+
+[sub_resource type="AnimationNodeAnimation" id=23]
+animation = "TurnUp"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=24]
+blend_point_0/node = SubResource( 20 )
+blend_point_0/pos = Vector2( -1, 0 )
+blend_point_1/node = SubResource( 21 )
+blend_point_1/pos = Vector2( 1, 0 )
+blend_point_2/node = SubResource( 22 )
+blend_point_2/pos = Vector2( 0, 1 )
+blend_point_3/node = SubResource( 23 )
+blend_point_3/pos = Vector2( 0, -1 )
+blend_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id=25]
+animation = "WalkLeft"
+
+[sub_resource type="AnimationNodeAnimation" id=26]
+animation = "WalkRight"
+
+[sub_resource type="AnimationNodeAnimation" id=27]
+animation = "WalkDown"
+
+[sub_resource type="AnimationNodeAnimation" id=28]
+animation = "WalkUp"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=29]
+blend_point_0/node = SubResource( 25 )
+blend_point_0/pos = Vector2( -1, 0 )
+blend_point_1/node = SubResource( 26 )
+blend_point_1/pos = Vector2( 1, 0 )
+blend_point_2/node = SubResource( 27 )
+blend_point_2/pos = Vector2( 0, 1 )
+blend_point_3/node = SubResource( 28 )
+blend_point_3/pos = Vector2( 0, -1 )
+blend_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=30]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=31]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=32]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=33]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=34]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=35]
+
+[sub_resource type="AnimationNodeStateMachine" id=36]
+states/Idle/node = SubResource( 19 )
+states/Idle/position = Vector2( 253, 86.5555 )
+states/Turn/node = SubResource( 24 )
+states/Turn/position = Vector2( 337.667, 169 )
+states/Walk/node = SubResource( 29 )
+states/Walk/position = Vector2( 437.667, 86.4444 )
+transitions = [ "Idle", "Walk", SubResource( 30 ), "Walk", "Idle", SubResource( 31 ), "Idle", "Turn", SubResource( 32 ), "Turn", "Idle", SubResource( 33 ), "Turn", "Walk", SubResource( 34 ), "Walk", "Turn", SubResource( 35 ) ]
+start_node = "Idle"
+graph_offset = Vector2( -362.25, 36.81 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=37]
+
+[sub_resource type="SpriteFrames" id=38]
+animations = [ {
+"frames": [ ExtResource( 5 ), ExtResource( 4 ), ExtResource( 6 ) ],
+"loop": false,
+"name": "default",
+"speed": 10.0
+} ]
+
+[node name="Player" type="KinematicBody2D"]
+collision_mask = 30
+script = SubResource( 39 )
+
+[node name="Shadow" type="Sprite" parent="."]
+texture = ExtResource( 3 )
+centered = false
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
+centered = false
+offset = Vector2( 0, -4 )
+flip_h = true
+hframes = 3
+vframes = 3
+frame = 6
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 8, 8 )
+shape = SubResource( 1 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Disappear = SubResource( 2 )
+anims/IdleDown = SubResource( 3 )
+anims/IdleLeft = SubResource( 4 )
+anims/IdleRight = SubResource( 5 )
+anims/IdleUp = SubResource( 6 )
+anims/TurnDown = SubResource( 7 )
+anims/TurnLeft = SubResource( 8 )
+anims/TurnRight = SubResource( 9 )
+anims/TurnUp = SubResource( 10 )
+anims/WalkDown = SubResource( 11 )
+anims/WalkLeft = SubResource( 12 )
+anims/WalkRight = SubResource( 13 )
+anims/WalkUp = SubResource( 14 )
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 36 )
+anim_player = NodePath("../AnimationPlayer")
+parameters/playback = SubResource( 37 )
+parameters/Idle/blend_position = Vector2( 0, 0 )
+parameters/Turn/blend_position = Vector2( 0, 0 )
+parameters/Walk/blend_position = Vector2( 0, 0 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 8, 8 )
+current = true
+
+[node name="BlockingRayCast2D" type="RayCast2D" parent="."]
+position = Vector2( 8, 8 )
+cast_to = Vector2( 0, 8 )
+collision_mask = 22
+
+[node name="LedgeRayCast2D" type="RayCast2D" parent="."]
+position = Vector2( 8, 8 )
+cast_to = Vector2( 0, 8 )
+collision_mask = 4
+
+[node name="DoorRayCast2D" type="RayCast2D" parent="."]
+position = Vector2( 8, 8 )
+cast_to = Vector2( 0, 8 )
+collision_mask = 8
+collide_with_areas = true
+collide_with_bodies = false
+
+[node name="surprise" type="AnimatedSprite" parent="."]
+visible = false
+position = Vector2( 8, -13 )
+scale = Vector2( 0.75, 0.75 )
+frames = SubResource( 38 )

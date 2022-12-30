@@ -1,0 +1,57 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://pokemon_info.gd" type="Script" id=1]
+
+[node name="pokemon_info_mini" type="ReferenceRect"]
+margin_right = 160.0
+margin_bottom = 16.0
+script = ExtResource( 1 )
+
+[node name="tween" type="Tween" parent="."]
+
+[node name="level" type="Label" parent="."]
+margin_left = 85.094
+margin_top = -5.0
+margin_right = 245.094
+margin_bottom = 21.0
+text = "5"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="level_label" type="Sprite" parent="."]
+position = Vector2( 83, 3.1398 )
+
+[node name="name" type="Label" parent="."]
+margin_top = -4.0
+margin_right = 160.0
+margin_bottom = 22.0
+text = "BULBASAUR"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="hp_bar" type="Node2D" parent="."]
+position = Vector2( 8, 9 )
+
+[node name="hp" type="Label" parent="hp_bar"]
+margin_left = 71.0
+margin_top = -4.0
+margin_right = 128.0
+margin_bottom = 22.0
+text = "20/ 20"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="label" type="Sprite" parent="hp_bar"]
+position = Vector2( 6, 4 )
+
+[node name="bar" type="Sprite" parent="hp_bar"]
+position = Vector2( 40, 4 )
+
+[node name="line" type="Line2D" parent="hp_bar/bar"]
+position = Vector2( -23.9543, 0 )
+points = PoolVector2Array( 0, 0, 48, 0 )
+width = 2.0
+default_color = Color( 0.133333, 0.494118, 0.192157, 1 )
