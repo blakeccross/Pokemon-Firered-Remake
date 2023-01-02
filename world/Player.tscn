@@ -11,9 +11,9 @@ script/source = "extends KinematicBody2D
 
 signal player_moving_signal
 signal player_stopped_signal
-
 signal player_entering_door_signal
 signal player_entered_door_signal
+signal player_script_done
 
 const LandingDustEffect = preload(\"res://world/LandingDustEffect.tscn\")
 
@@ -197,6 +197,7 @@ func cutscene_input_action_pressed(directions):
 		anim_tree.set(\"parameters/Turn/blend_position\", input_direction)
 		initial_position = position
 		yield(get_node(\".\"), \"player_stopped_signal\")
+	emit_signal(\"player_script_done\")
 
 func cutscene_turn_player(directions):
 	for d in directions:
@@ -725,6 +726,7 @@ current = true
 position = Vector2( 8, 8 )
 cast_to = Vector2( 0, 8 )
 collision_mask = 22
+collide_with_areas = true
 
 [node name="LedgeRayCast2D" type="RayCast2D" parent="."]
 position = Vector2( 8, 8 )

@@ -48,6 +48,8 @@ func _ready():
 	anim_tree.set("parameters/Turn/blend_position", input_direction)
 	if NPC.movement_type == "WANDER AROUND":
 		wander_around()
+	if NPC.movement_type == "FACE DOWN":
+		face_down()
 
 	
 func set_trainer(value) -> void:
@@ -205,7 +207,6 @@ func interact():
 	var dialogue = Utils.get_dialogue()
 	var directions = []
 	var dialogue_text = NPC.world_encounter.text
-	#print(NPC.world_encounter.text)
 	if player_facing_direction == 0:
 		directions = ["TURN RIGHT"]
 	if player_facing_direction == 1:
@@ -227,7 +228,9 @@ func wander_around():
 	cutscene_input_action_pressed(directions)
 	yield(get_tree().create_timer(4.0), "timeout")
 	wander_around()
-	
+
+func face_down():
+	$Area2D/AnimationPlayer.play("IdleDown")
 
 func _on_NPC_body_entered(body: Node) -> void:
 	interacting = true

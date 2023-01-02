@@ -110,7 +110,6 @@ margin_bottom = 48.0
 margin_right = 45.0
 margin_bottom = 10.0
 capitalize = true
-text = "fight"
 selected = true
 
 [node name="item" parent="action_menu/m/m/rows/col_1" instance=ExtResource( 8 )]

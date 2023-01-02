@@ -20,6 +20,7 @@ export(bool) var wild:int
 export(Array, Resource) var moves
 export(Dictionary) var moves_to_learn
 export(PackedScene) var battle_graphics
+export(Texture) var texture
 
 func prop_change_(property:String, from, to) -> void:
 	emit_signal(property + "_changed", from, to)

@@ -13,6 +13,8 @@ onready var options: Dictionary = {
 	Options.CANCEL: $CancelSprite,
 }
 
+onready var player = Utils.get_player()
+
 
 func unset_active_option():
 	options[selected_option].frame = 0
@@ -27,7 +29,7 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("ui_down"):
 		unset_active_option()
-		selected_option = (selected_option + 1) % 7
+		selected_option = (selected_option + 1) % player.trainer.pokemon.size()
 		set_active_option()
 	elif event.is_action_pressed("ui_up"):
 		unset_active_option()

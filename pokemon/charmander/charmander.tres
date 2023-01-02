@@ -1,8 +1,9 @@
-[gd_resource type="Resource" load_steps=4 format=2]
+[gd_resource type="Resource" load_steps=5 format=2]
 
 [ext_resource path="res://pokemon/pokemon_model.gd" type="Script" id=1]
 [ext_resource path="res://pokemon/charmander/charmander_battle_graphic.tscn" type="PackedScene" id=2]
 [ext_resource path="res://moves/spike/spike.tres" type="Resource" id=3]
+[ext_resource path="res://Assets/Pokemon/Charmander.png" type="Texture" id=4]
 
 [resource]
 script = ExtResource( 1 )
@@ -20,3 +21,4 @@ moves = [ ExtResource( 3 ) ]
 moves_to_learn = {
 }
 battle_graphics = ExtResource( 2 )
+texture = ExtResource( 4 )

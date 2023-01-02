@@ -1,0 +1,23 @@
+[gd_resource type="Resource" load_steps=5 format=2]
+
+[ext_resource path="res://npc_model.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Player/rival_Spritesheet.png" type="Texture" id=2]
+[ext_resource path="res://text_model.gd" type="Script" id=3]
+
+[sub_resource type="Resource" id=2]
+script = ExtResource( 3 )
+text = "Hmm...
+Is that right..."
+
+[resource]
+script = ExtResource( 1 )
+id = "RIVAL"
+name = ""
+movement_type = "FACE LEFT"
+pokemon = [  ]
+items = [  ]
+is_player = false
+world_encounter = SubResource( 2 )
+beat_flag_mutations = [  ]
+loose_flag_mutations = [  ]
+world_graphic = ExtResource( 2 )

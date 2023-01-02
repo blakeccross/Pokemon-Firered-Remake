@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://world/Tween.gd" type="Script" id=1]
 [ext_resource path="res://Assets/UI/ui_arrow_left_right.png" type="Texture" id=2]
 [ext_resource path="res://Assets/UI/pkmnfl.ttf" type="DynamicFontData" id=3]
 [ext_resource path="res://Assets/UI/menu_box_1.png" type="Texture" id=4]
+[ext_resource path="res://world/menu_button.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Battle/menu.gd" type="Script" id=6]
 
 [sub_resource type="GDScript" id=4]
 script/source = "extends CanvasLayer
@@ -12,18 +14,20 @@ onready var info_text_ = find_node(\"info_text\")
 onready var tween_ = find_node(\"Tween\")
 onready var arrow_ = find_node(\"arrow\")
 onready var control = get_node(\".\")
+onready var yes_no_menu_ = find_node(\"yes_no_menu\")
 export(String, FILE, \"*.json\") var d_file
 var dialogue_text = {}
 signal finished
-	
+signal yes_no_selection
 
 var dialogue_index = 0
 var finished = false
 
 func _ready() -> void:
 	print()
-	#Utils.connect(\"display_dialogue\", self, \"set_dialogue\")
 	Utils.connect(\"text\", self, \"set_text\")
+	yes_no_menu_.set_process_input(false)
+	yes_no_menu_.connect(\"activated\", self, \"_on_yes_no_activated\")
 	
 func _physics_process(delta: float) -> void:
 	arrow_.visible = finished
@@ -54,11 +58,20 @@ func start():
 func _on_Tween_tween_completed(object: Object, key: NodePath) -> void:
 	finished = true
 
-func load_dialogue():
-	var file = File.new()
-	if file.file_exists(d_file):
-		file.open(d_file, file.READ)
-		return parse_json(file.get_as_text())
+func push_yes_no_menu():
+	$Dialogue.set_process_input(false)
+	yes_no_menu_.set_process_input(true)
+	yes_no_menu_.visible = true
+
+func _on_yes_no_activated(yes_no_idx:int) -> void:
+	if yes_no_idx == 0:
+		emit_signal(\"yes_no_selection\", yes_no_idx)
+		yes_no_menu_.set_process_input(false)
+		yes_no_menu_.visible = false
+	else:
+		emit_signal(\"yes_no_selection\", yes_no_idx)
+		yes_no_menu_.set_process_input(false)
+		yes_no_menu_.visible = false
 
 func set_text(text):
 	control.visible = true
@@ -74,12 +87,23 @@ func set_text(text):
 	tween_.connect(\"tween_all_completed\", arrow_, \"set_visible\", [false], CONNECT_ONESHOT | CONNECT_REFERENCE_COUNTED)
 	tween_.connect(\"tween_all_completed\", $activate, \"play\", [], CONNECT_ONESHOT | CONNECT_REFERENCE_COUNTED)
 	return tween_.block()
-		
-func set_dialogue():
-	dialogue_index = 0
-	dialogue_text = load_dialogue()
-	#dialogue_text = dialogue_text[dialogue_key]
-	start()
+	
+func set_question(text):
+	control.visible = true
+	var player = Utils.get_player()
+	player.stop_input = true
+	player.anim_state.travel(\"Idle\")
+	
+	info_text_.percent_visible = 0
+	info_text_.bbcode_text = str(text)
+	tween_.interpolate_property(info_text_, \"percent_visible\", null, 1, 0.5)
+	tween_.step_property(arrow_, \"visible\", false, true, 0.5)
+	tween_.interpolate_method(tween_, \"nop\", 0, 0, 999999999, 0, 0, 0.5)
+	tween_.connect(\"tween_all_completed\", arrow_, \"set_visible\", [false], CONNECT_ONESHOT | CONNECT_REFERENCE_COUNTED)
+	tween_.connect(\"tween_all_completed\", $activate, \"play\", [], CONNECT_ONESHOT | CONNECT_REFERENCE_COUNTED)
+	if finished == true:
+		push_yes_no_menu()
+	return tween_.block()
 	
 "
 
@@ -87,6 +111,10 @@ func set_dialogue():
 size = 12
 extra_spacing_bottom = 7
 font_data = ExtResource( 3 )
+
+[sub_resource type="Theme" id=5]
+
+[sub_resource type="StyleBoxEmpty" id=6]
 
 [node name="Control" type="CanvasLayer"]
 script = SubResource( 4 )
@@ -121,8 +149,6 @@ rect_min_size = Vector2( 50, 11 )
 custom_colors/default_color = Color( 0.435294, 0.435294, 0.533333, 1 )
 custom_fonts/normal_font = SubResource( 3 )
 bbcode_enabled = true
-text = "
-"
 custom_effects = [ null ]
 
 [node name="Tween" type="Tween" parent="Dialogue/NinePatchRect/MarginContainer/info_text"]
@@ -139,5 +165,47 @@ margin_right = -1.0
 margin_bottom = -2.0
 rect_rotation = 90.0
 texture = ExtResource( 2 )
+
+[node name="yes_no_menu" type="PanelContainer" parent="."]
+visible = false
+margin_left = 176.0
+margin_top = 80.0
+margin_right = 232.0
+margin_bottom = 112.0
+theme = SubResource( 5 )
+custom_styles/panel = SubResource( 6 )
+script = ExtResource( 6 )
+menu_items = [ NodePath("m/m/col_1/yes"), NodePath("m/m/col_1/no") ]
+
+[node name="m" type="NinePatchRect" parent="yes_no_menu"]
+margin_right = 56.0
+margin_bottom = 32.0
+texture = ExtResource( 4 )
+patch_margin_left = 8
+patch_margin_top = 8
+patch_margin_right = 8
+patch_margin_bottom = 8
+
+[node name="m" type="MarginContainer" parent="yes_no_menu/m"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="col_1" type="VBoxContainer" parent="yes_no_menu/m/m"]
+margin_right = 56.0
+margin_bottom = 32.0
+
+[node name="yes" parent="yes_no_menu/m/m/col_1" instance=ExtResource( 5 )]
+margin_right = 56.0
+margin_bottom = 10.0
+capitalize = true
+text = "yes"
+selected = true
+
+[node name="no" parent="yes_no_menu/m/m/col_1" instance=ExtResource( 5 )]
+margin_top = 14.0
+margin_right = 56.0
+margin_bottom = 24.0
+capitalize = true
+text = "no"
 
 [connection signal="tween_completed" from="Dialogue/NinePatchRect/MarginContainer/info_text/Tween" to="." method="_on_Tween_tween_completed"]

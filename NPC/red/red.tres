@@ -1,9 +1,8 @@
-[gd_resource type="Resource" load_steps=6 format=2]
+[gd_resource type="Resource" load_steps=5 format=2]
 
 [ext_resource path="res://NPC/red/red_battle_graphic.tscn" type="PackedScene" id=1]
 [ext_resource path="res://npc_model.gd" type="Script" id=2]
 [ext_resource path="res://text_model.gd" type="Script" id=3]
-[ext_resource path="res://pokemon/squirle/squirtle.tres" type="Resource" id=4]
 
 [sub_resource type="Resource" id=1]
 script = ExtResource( 3 )
@@ -14,7 +13,7 @@ script = ExtResource( 2 )
 id = ""
 name = "Red"
 movement_type = ""
-pokemon = [ ExtResource( 4 ) ]
+pokemon = [  ]
 items = [  ]
 is_player = true
 battle_begin = SubResource( 1 )

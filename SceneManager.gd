@@ -11,8 +11,6 @@ var transition_type = TransitionType.NEW_SCENE
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
-	#for node in get_tree().get_nodes_in_group("TallGrass"):
-	#	node.connect("wild_encounter", self, "_on_encounter", [node])
 
 func transition_to_party_screen():
 	$ScreenTransition/AnimationPlayer.play("FadeToBlack")

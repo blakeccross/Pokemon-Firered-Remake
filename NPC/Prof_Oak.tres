@@ -13,7 +13,7 @@ Is that right..."
 script = ExtResource( 1 )
 id = "PROF_OAK"
 name = ""
-movement_type = ""
+movement_type = "FACE LEFT"
 pokemon = [  ]
 items = [  ]
 is_player = false

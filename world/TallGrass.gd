@@ -4,8 +4,8 @@ onready var anim_player = $AnimationPlayer
 const grass_overlay_texture = preload("res://Assets/Grass/stepped_tall_grass.png")
 const GrassStepEffect = preload("res://world/GrassStepEffect.tscn")
 
-export(Array, Resource) var pokemon
-export(Array,float,0,100) var pokemon_chances
+#export(Array, Resource) var pokemon
+#export(Array,float,0,100) var pokemon_chances
 
 var grass_overlay: TextureRect = null
 var rng = RandomNumberGenerator.new()
@@ -30,7 +30,6 @@ func player_in_grass():
 		grass_step_effect.position = position
 		get_tree().current_scene.add_child(grass_step_effect)
 		
-		
 		grass_overlay = TextureRect.new()
 		grass_overlay.texture = grass_overlay_texture
 		grass_overlay.rect_position = position
@@ -50,17 +49,9 @@ func randomize_encounter():
 		#player.stop_input = true
 		player.set_physics_process(false)
 		player.anim_state.travel("Idle")
-		randomize_pokemon()
-		Utils.get_scene_manager().transition_to_pokemon_scene(wild_pokemon)
+		#randomize_pokemon()
+		emit_signal("wild_encounter")
+		#Utils.get_scene_manager().transition_to_pokemon_scene(wild_pokemon)
 	else:
 		return
 
-func randomize_pokemon():
-	rng.randomize()
-	var rng_1 = rng.randf_range(0.0, 100.0)
-	print(rng_1)
-	for i in range(0,pokemon_chances.size()):
-		if rng_1 < pokemon_chances[i]:
-			wild_pokemon = pokemon[i]
-			
-	print("WILD", wild_pokemon)

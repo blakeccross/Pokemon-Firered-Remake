@@ -19,25 +19,21 @@ margin_bottom = 40.0
 [node name="NinePatchRect" type="NinePatchRect" parent="Control"]
 margin_left = 177.0
 margin_top = 1.0
-margin_right = 239.0
-margin_bottom = 88.0
+margin_right = 240.0
+margin_bottom = 104.0
 texture = ExtResource( 1 )
 patch_margin_left = 6
 patch_margin_top = 6
 patch_margin_right = 6
 patch_margin_bottom = 6
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="VBoxContainer" type="VBoxContainer" parent="Control/NinePatchRect"]
 margin_left = 14.0
 margin_top = 6.0
 margin_right = 64.0
-margin_bottom = 92.0
+margin_bottom = 95.0
 
 [node name="Pokemon" type="RichTextLabel" parent="Control/NinePatchRect/VBoxContainer"]
-visible = false
 margin_right = 50.0
 margin_bottom = 11.0
 rect_min_size = Vector2( 50, 11 )
@@ -46,44 +42,45 @@ custom_fonts/normal_font = SubResource( 1 )
 text = "POKeMON"
 
 [node name="RichTextLabel2" type="RichTextLabel" parent="Control/NinePatchRect/VBoxContainer"]
-margin_right = 50.0
-margin_bottom = 11.0
-rect_min_size = Vector2( 50, 11 )
-custom_colors/default_color = Color( 0.435294, 0.435294, 0.533333, 1 )
-custom_fonts/normal_font = SubResource( 1 )
-text = "BAG"
-
-[node name="RichTextLabel3" type="RichTextLabel" parent="Control/NinePatchRect/VBoxContainer"]
 margin_top = 15.0
 margin_right = 50.0
 margin_bottom = 26.0
 rect_min_size = Vector2( 50, 11 )
 custom_colors/default_color = Color( 0.435294, 0.435294, 0.533333, 1 )
 custom_fonts/normal_font = SubResource( 1 )
-text = "Arkeve"
+text = "BAG"
 
-[node name="RichTextLabel4" type="RichTextLabel" parent="Control/NinePatchRect/VBoxContainer"]
+[node name="RichTextLabel3" type="RichTextLabel" parent="Control/NinePatchRect/VBoxContainer"]
 margin_top = 30.0
 margin_right = 50.0
 margin_bottom = 41.0
 rect_min_size = Vector2( 50, 11 )
 custom_colors/default_color = Color( 0.435294, 0.435294, 0.533333, 1 )
 custom_fonts/normal_font = SubResource( 1 )
-text = "SAVE"
+text = "Arkeve"
 
-[node name="RichTextLabel5" type="RichTextLabel" parent="Control/NinePatchRect/VBoxContainer"]
+[node name="RichTextLabel4" type="RichTextLabel" parent="Control/NinePatchRect/VBoxContainer"]
 margin_top = 45.0
 margin_right = 50.0
 margin_bottom = 56.0
 rect_min_size = Vector2( 50, 11 )
 custom_colors/default_color = Color( 0.435294, 0.435294, 0.533333, 1 )
 custom_fonts/normal_font = SubResource( 1 )
-text = "OPTION"
+text = "SAVE"
 
-[node name="RichTextLabel6" type="RichTextLabel" parent="Control/NinePatchRect/VBoxContainer"]
+[node name="RichTextLabel5" type="RichTextLabel" parent="Control/NinePatchRect/VBoxContainer"]
 margin_top = 60.0
 margin_right = 50.0
 margin_bottom = 71.0
+rect_min_size = Vector2( 50, 11 )
+custom_colors/default_color = Color( 0.435294, 0.435294, 0.533333, 1 )
+custom_fonts/normal_font = SubResource( 1 )
+text = "OPTION"
+
+[node name="RichTextLabel6" type="RichTextLabel" parent="Control/NinePatchRect/VBoxContainer"]
+margin_top = 75.0
+margin_right = 50.0
+margin_bottom = 86.0
 rect_min_size = Vector2( 50, 11 )
 custom_colors/default_color = Color( 0.435294, 0.435294, 0.533333, 1 )
 custom_fonts/normal_font = SubResource( 1 )

@@ -199,6 +199,7 @@ margin_bottom = 40.0
 
 [node name="yes" parent="yes_no_menu/m/m/col_1" instance=ExtResource( 8 )]
 margin_right = 88.0
+margin_bottom = 10.0
 capitalize = true
 text = "yes"
 selected = true
@@ -206,6 +207,7 @@ selected = true
 [node name="no" parent="yes_no_menu/m/m/col_1" instance=ExtResource( 8 )]
 margin_top = 14.0
 margin_right = 88.0
+margin_bottom = 24.0
 capitalize = true
 text = "no"
 selected = true

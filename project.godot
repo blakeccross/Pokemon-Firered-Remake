@@ -84,6 +84,10 @@ window/size/test_height=800
 window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
+[global]
+
+layer=false
+
 [importer_defaults]
 
 texture={
@@ -136,6 +140,7 @@ z={
 2d_physics/layer_2="World"
 2d_physics/layer_3="Ledge"
 2d_physics/layer_4="Door"
+2d_physics/layer_5="Items"
 
 [rendering]
 

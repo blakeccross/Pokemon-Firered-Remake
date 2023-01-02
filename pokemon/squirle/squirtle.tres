@@ -1,10 +1,11 @@
-[gd_resource type="Resource" load_steps=6 format=2]
+[gd_resource type="Resource" load_steps=7 format=2]
 
 [ext_resource path="res://pokemon/pokemon_model.gd" type="Script" id=1]
 [ext_resource path="res://moves/spike/spike.tres" type="Resource" id=2]
 [ext_resource path="res://pokemon/squirle/squirtle_battle_graphic.tscn" type="PackedScene" id=3]
 [ext_resource path="res://moves/horn/horn.tres" type="Resource" id=4]
 [ext_resource path="res://moves/fire/burn.tres" type="Resource" id=5]
+[ext_resource path="res://Assets/Pokemon/Squirtle.png" type="Texture" id=6]
 
 [resource]
 script = ExtResource( 1 )
@@ -22,3 +23,4 @@ moves = [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 5 ) ]
 moves_to_learn = {
 }
 battle_graphics = ExtResource( 3 )
+texture = ExtResource( 6 )
