@@ -4,16 +4,15 @@ onready var dialogue = Utils.get_dialogue()
 onready var player = Utils.get_player()
 onready var prof_oak = find_node("Prof_Oak")
 onready var rival = find_node("Rival")
+var starter_chosen = false
 
 
 func _ready() -> void:
 	prof_oak.position = Vector2(96, 176) 
 	rival.get_node("Area2D/AnimationPlayer").play("IdleUp")
-	var directions = ["UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP"]
+	var directions = ["UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP", "TURN DOWN"]
 	prof_oak.cutscene_input_action_pressed(directions)
 	yield(prof_oak, "npc_script_done")
-	var turnoak = ["TURN DOWN"]
-	prof_oak.cutscene_turn_player(turnoak)
 	var PlayerDirections = ["UP", "UP", "UP", "UP", "UP", "UP", "UP", "UP"]
 	player.cutscene_input_action_pressed(PlayerDirections)
 	yield(player, "player_script_done")

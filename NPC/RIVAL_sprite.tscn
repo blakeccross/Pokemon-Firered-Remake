@@ -10,4 +10,4 @@ offset = Vector2( 0, -4 )
 flip_h = true
 hframes = 3
 vframes = 3
-frame = 4
+frame = 1

@@ -15,7 +15,7 @@ func _on_DialogueTriggger_body_entered(body: Node) -> void:
 		$oakTheme_music.play()
 		yield(dialogue.set_text("OAK: Hey! Wait!\nDon't go out!"), "done")
 		var PlayerTurnAround = ["TURN DOWN"]
-		player.cutscene_turn_player(PlayerTurnAround)
+		player.cutscene_input_action_pressed(PlayerTurnAround)
 		player.surprise()
 		var directions = ["UP", "UP", "UP", "UP", "UP", "RIGHT", "UP"]
 		prof_oak.cutscene_input_action_pressed(directions)

@@ -544,7 +544,7 @@ frames = SubResource( 56 )
 position = Vector2( 128, 48 )
 
 [node name="Player" parent="YSort" instance=ExtResource( 4 )]
-position = Vector2( 128, 176 )
+position = Vector2( 64, -16 )
 trainer = ExtResource( 18 )
 
 [node name="Woman_1" parent="YSort" instance=ExtResource( 19 )]

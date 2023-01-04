@@ -7,7 +7,7 @@
 script = ExtResource( 1 )
 id = ""
 name = ""
-movement_type = ""
+movement_type = "FACE RIGHT"
 pokemon = [  ]
 items = [  ]
 is_player = true

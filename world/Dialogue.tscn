@@ -66,6 +66,7 @@ func push_yes_no_menu():
 func _on_yes_no_activated(yes_no_idx:int) -> void:
 	if yes_no_idx == 0:
 		emit_signal(\"yes_no_selection\", yes_no_idx)
+		print(\"emitting\")
 		yes_no_menu_.set_process_input(false)
 		yes_no_menu_.visible = false
 	else:
@@ -109,6 +110,7 @@ func set_question(text):
 
 [sub_resource type="DynamicFont" id=3]
 size = 12
+extra_spacing_top = 2
 extra_spacing_bottom = 7
 font_data = ExtResource( 3 )
 
@@ -138,13 +140,13 @@ patch_margin_bottom = 6
 
 [node name="MarginContainer" type="MarginContainer" parent="Dialogue/NinePatchRect"]
 margin_left = 8.0
-margin_top = 7.0
-margin_right = 219.0
-margin_bottom = 34.0
+margin_top = 6.0
+margin_right = 217.0
+margin_bottom = 35.0
 
 [node name="info_text" type="RichTextLabel" parent="Dialogue/NinePatchRect/MarginContainer"]
-margin_right = 211.0
-margin_bottom = 27.0
+margin_right = 209.0
+margin_bottom = 29.0
 rect_min_size = Vector2( 50, 11 )
 custom_colors/default_color = Color( 0.435294, 0.435294, 0.533333, 1 )
 custom_fonts/normal_font = SubResource( 3 )

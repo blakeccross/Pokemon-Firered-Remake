@@ -163,14 +163,34 @@ func cutscene_input_action_pressed(directions):
 		if d == "DOWN":
 			is_moving = true
 			input_direction = Vector2.DOWN
+		elif d == "TURN DOWN":
+			is_moving = false
+			npc_state = NPCState.TURNING
+			anim_state.travel("Turn")
+			input_direction = Vector2.DOWN
 		elif d == "UP":
 			is_moving = true
+			input_direction = Vector2.UP
+		elif d == "TURN UP":
+			is_moving = false
+			npc_state = NPCState.TURNING
+			anim_state.travel("Turn")
 			input_direction = Vector2.UP
 		elif d == "LEFT":
 			is_moving = true
 			input_direction = Vector2.LEFT
+		elif d == "TURN LEFT":
+			is_moving = false
+			npc_state = NPCState.TURNING
+			anim_state.travel("Turn")
+			input_direction = Vector2.LEFT
 		elif d == "RIGHT":
 			is_moving = true
+			input_direction = Vector2.RIGHT
+		elif d == "TURN RIGHT":
+			is_moving = false
+			npc_state = NPCState.TURNING
+			anim_state.travel("Turn")
 			input_direction = Vector2.RIGHT
 			
 		anim_tree.set("parameters/Idle/blend_position", input_direction)
@@ -180,27 +200,6 @@ func cutscene_input_action_pressed(directions):
 		yield(get_node("."), "npc_stopped_signal")
 	input_direction = Vector2.ZERO
 	emit_signal("npc_script_done")
-
-func cutscene_turn_player(directions):
-	for d in directions:
-		is_moving = false
-		npc_state = NPCState.TURNING
-		anim_state.travel("Turn")
-		if d == "TURN DOWN":
-			input_direction = Vector2.DOWN
-		elif d == "TURN UP":
-			input_direction = Vector2.UP
-		elif d == "TURN LEFT":
-			input_direction = Vector2.LEFT
-		elif d == "TURN RIGHT":
-			input_direction = Vector2.RIGHT
-
-		anim_tree.set("parameters/Idle/blend_position", input_direction)
-		anim_tree.set("parameters/Walk/blend_position", input_direction)
-		anim_tree.set("parameters/Turn/blend_position", input_direction)
-		initial_position = position
-	input_direction = Vector2.ZERO
-	
 	
 func interact():
 	var player_facing_direction = Utils.get_player().facing_direction
@@ -215,7 +214,7 @@ func interact():
 		directions = ["TURN DOWN"]
 	if player_facing_direction == 3:
 		directions = ["TURN UP"]
-	cutscene_turn_player(directions)
+	cutscene_input_action_pressed(directions)
 	
 	yield(dialogue.set_text(dialogue_text), "done")
 

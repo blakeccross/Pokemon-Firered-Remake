@@ -184,12 +184,36 @@ func cutscene_input_action_pressed(directions):
 	for d in directions:
 		is_moving = true
 		if d == \"DOWN\":
+			is_moving = true
+			input_direction = Vector2.DOWN
+		elif d == \"TURN DOWN\":
+			is_moving = false
+			player_state = PlayerState.TURNING
+			anim_state.travel(\"Turn\")
 			input_direction = Vector2.DOWN
 		elif d == \"UP\":
+			is_moving = true
+			input_direction = Vector2.UP
+		elif d == \"TURN UP\":
+			is_moving = false
+			player_state = PlayerState.TURNING
+			anim_state.travel(\"Turn\")
 			input_direction = Vector2.UP
 		elif d == \"LEFT\":
+			is_moving = true
+			input_direction = Vector2.LEFT
+		elif d == \"TURN LEFT\":
+			is_moving = false
+			player_state = PlayerState.TURNING
+			anim_state.travel(\"Turn\")
 			input_direction = Vector2.LEFT
 		elif d == \"RIGHT\":
+			is_moving = true
+			input_direction = Vector2.RIGHT
+		elif d == \"TURN RIGHT\":
+			is_moving = false
+			player_state = PlayerState.TURNING
+			anim_state.travel(\"Turn\")
 			input_direction = Vector2.RIGHT
 
 		anim_tree.set(\"parameters/Idle/blend_position\", input_direction)
@@ -198,25 +222,6 @@ func cutscene_input_action_pressed(directions):
 		initial_position = position
 		yield(get_node(\".\"), \"player_stopped_signal\")
 	emit_signal(\"player_script_done\")
-
-func cutscene_turn_player(directions):
-	for d in directions:
-		is_moving = false
-		player_state = PlayerState.TURNING
-		anim_state.travel(\"Turn\")
-		if d == \"TURN DOWN\":
-			input_direction = Vector2.DOWN
-		elif d == \"TURN UP\":
-			input_direction = Vector2.UP
-		elif d == \"TURN LEFT\":
-			input_direction = Vector2.LEFT
-		elif d == \"TURN RIGHT\":
-			input_direction = Vector2.RIGHT
-
-		anim_tree.set(\"parameters/Idle/blend_position\", input_direction)
-		anim_tree.set(\"parameters/Walk/blend_position\", input_direction)
-		anim_tree.set(\"parameters/Turn/blend_position\", input_direction)
-		initial_position = position
 "
 
 [sub_resource type="RectangleShape2D" id=1]
