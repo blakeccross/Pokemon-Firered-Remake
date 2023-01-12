@@ -8,6 +8,7 @@ script = ExtResource( 1 )
 id = ""
 name = ""
 movement_type = "FACE RIGHT"
+disable_collision = false
 pokemon = [  ]
 items = [  ]
 is_player = true

@@ -46,12 +46,9 @@ func randomize_encounter():
 	if encounter_chance == 0:
 		var player = Utils.get_player()
 		yield(player, "player_stopped_signal")
-		#player.stop_input = true
 		player.set_physics_process(false)
 		player.anim_state.travel("Idle")
-		#randomize_pokemon()
 		emit_signal("wild_encounter")
-		#Utils.get_scene_manager().transition_to_pokemon_scene(wild_pokemon)
 	else:
 		return
 

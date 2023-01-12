@@ -14,6 +14,7 @@ script = ExtResource( 1 )
 id = "PROF_OAK"
 name = ""
 movement_type = "FACE LEFT"
+disable_collision = false
 pokemon = [  ]
 items = [  ]
 is_player = false

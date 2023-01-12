@@ -2,6 +2,7 @@ extends Area2D
 
 signal npc_moving_signal
 signal npc_stopped_signal
+signal npc_finished_turning
 
 signal npc_script_done
 
@@ -16,13 +17,13 @@ export var walk_speed = 4.0
 export var jump_speed = 4.0
 const TILE_SIZE = 16
 
-onready var anim_tree = $Area2D/AnimationTree
+onready var anim_tree = $AnimationTree
 onready var anim_state = anim_tree.get("parameters/playback")
-onready var ray = $Area2D/BlockingRayCast2D
-onready var ledge_ray = $Area2D/LedgeRayCast2D
-onready var door_ray = $Area2D/DoorRayCast2D
+onready var ray = $BlockingRayCast2D
+onready var ledge_ray = $LedgeRayCast2D
+onready var door_ray = $DoorRayCast2D
 
-onready var shadow = $Area2D/Shadow
+onready var shadow = $Shadow
 var jumping_over_ledge: bool = false
 
 enum NPCState { IDLE, TURNING, WALKING }
@@ -39,13 +40,15 @@ var percent_moved_to_next_tile = 0.0
 var interacting = false
 
 func _ready():
-	$Area2D/Sprite.visible = true
+	$Sprite.visible = true
 	anim_tree.active = true
 	initial_position = position
 	shadow.visible = false
 	anim_tree.set("parameters/Idle/blend_position", input_direction)
 	anim_tree.set("parameters/Walk/blend_position", input_direction)
 	anim_tree.set("parameters/Turn/blend_position", input_direction)
+	if NPC.disable_collision == true:
+		$CollisionShape2D.disabled
 	if NPC.movement_type == "WANDER AROUND":
 		wander_around()
 	if NPC.movement_type == "FACE DOWN":
@@ -54,8 +57,8 @@ func _ready():
 	
 func set_trainer(value) -> void:
 	NPC = value
-	$Area2D/Sprite.texture = NPC.world_graphic
-	#$Area2D/Sprite.call_deferred("create_instance", true, NPC.world_graphic)
+	$Sprite.texture = NPC.world_graphic
+	#$Sprite.call_deferred("create_instance", true, NPC.world_graphic)
 
 	
 func set_spawn(location: Vector2, direction: Vector2):
@@ -65,7 +68,9 @@ func set_spawn(location: Vector2, direction: Vector2):
 		position = location
 	
 func _physics_process(delta):
-	if input_direction != Vector2.ZERO:
+	if is_moving == false:
+		process_player_movement_input()
+	elif input_direction != Vector2.ZERO:
 		anim_state.travel("Walk")
 		move(delta)
 	elif interacting == true && Input.is_action_pressed("x"):
@@ -73,10 +78,25 @@ func _physics_process(delta):
 	else:
 		anim_state.travel("Idle")
 		is_moving = false
+		
+func process_player_movement_input():
+	if input_direction != Vector2.ZERO:
+		anim_tree.set("parameters/Idle/blend_position", input_direction)
+		anim_tree.set("parameters/Walk/blend_position", input_direction)
+		anim_tree.set("parameters/Turn/blend_position", input_direction)
+		
+		if need_to_turn():
+			npc_state = NPCState.TURNING
+			anim_state.travel("Turn")
+		else:
+			initial_position = position
+			is_moving = true
+	else:
+		anim_state.travel("Idle")
 	
 		
 func disable_collision():
-	get_node("Area2D/CollisionShape2D2").queue_free()
+	$CollisionShape2D.queue_free()
 
 func need_to_turn():
 	var new_facing_direction
@@ -90,6 +110,7 @@ func need_to_turn():
 		new_facing_direction = FacingDirection.DOWN
 	
 	if facing_direction != new_facing_direction:
+		emit_signal("npc_finished_turning")
 		facing_direction = new_facing_direction
 		return true
 	facing_direction = new_facing_direction
@@ -121,7 +142,7 @@ func move(delta):
 			percent_moved_to_next_tile = 0.0
 			is_moving = false
 			stop_input = true
-			$Area2D/AnimationPlayer.play("Disappear")
+			$AnimationPlayer.play("Disappear")
 		else:
 			position = initial_position + (input_direction * TILE_SIZE * percent_moved_to_next_tile)
 		
@@ -160,44 +181,27 @@ func move(delta):
 		
 func cutscene_input_action_pressed(directions):
 	for d in directions:
-		if d == "DOWN":
-			is_moving = true
-			input_direction = Vector2.DOWN
-		elif d == "TURN DOWN":
-			is_moving = false
-			npc_state = NPCState.TURNING
-			anim_state.travel("Turn")
-			input_direction = Vector2.DOWN
-		elif d == "UP":
-			is_moving = true
-			input_direction = Vector2.UP
-		elif d == "TURN UP":
-			is_moving = false
-			npc_state = NPCState.TURNING
-			anim_state.travel("Turn")
-			input_direction = Vector2.UP
-		elif d == "LEFT":
-			is_moving = true
-			input_direction = Vector2.LEFT
-		elif d == "TURN LEFT":
-			is_moving = false
-			npc_state = NPCState.TURNING
-			anim_state.travel("Turn")
-			input_direction = Vector2.LEFT
-		elif d == "RIGHT":
-			is_moving = true
-			input_direction = Vector2.RIGHT
-		elif d == "TURN RIGHT":
-			is_moving = false
-			npc_state = NPCState.TURNING
-			anim_state.travel("Turn")
-			input_direction = Vector2.RIGHT
+		if d == "UP" || d == "DOWN" || d == "LEFT" || d == "RIGHT":
+			if d == "UP":
+				input_direction = Vector2.UP
+			if d == "DOWN":
+				input_direction = Vector2.DOWN
+			if d == "LEFT":
+				input_direction = Vector2.LEFT
+			if d == "RIGHT":
+				input_direction = Vector2.RIGHT
+			yield(self, "npc_stopped_signal")
+		if d == "TURN UP" || d == "TURN DOWN" || d == "TURN LEFT" || d == "TURN RIGHT":
+			if d == "TURN UP":
+				input_direction = Vector2.UP
+			if d == "TURN DOWN":
+				input_direction = Vector2.DOWN
+			if d == "TURN LEFT":
+				input_direction = Vector2.LEFT
+			if d == "TURN RIGHT":
+				input_direction = Vector2.RIGHT
+			yield(self, "npc_finished_turning")
 			
-		anim_tree.set("parameters/Idle/blend_position", input_direction)
-		anim_tree.set("parameters/Walk/blend_position", input_direction)
-		anim_tree.set("parameters/Turn/blend_position", input_direction)
-		initial_position = position
-		yield(get_node("."), "npc_stopped_signal")
 	input_direction = Vector2.ZERO
 	emit_signal("npc_script_done")
 	

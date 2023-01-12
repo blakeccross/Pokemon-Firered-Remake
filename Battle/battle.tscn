@@ -1,7 +1,7 @@
 [gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://NPC/blue/blue.tres" type="Resource" id=1]
-[ext_resource path="res://NPC/red/red.tres" type="Resource" id=2]
+[ext_resource path="res://NPC/RIVAL.tres" type="Resource" id=2]
 [ext_resource path="res://world/pokemon_info_player.tscn" type="PackedScene" id=3]
 [ext_resource path="res://Battle/pokemon_list.tscn" type="PackedScene" id=4]
 [ext_resource path="res://world/Tween.gd" type="Script" id=5]

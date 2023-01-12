@@ -1,4 +1,4 @@
-extends Node
+extends Control
 
 signal action_choosen
 signal action_applied
@@ -35,6 +35,7 @@ class Action:
 	var idx := 0
 
 func _ready():
+	print("Battle loaded")
 	player_graphics_.trainer.replace_by_instance(player.battle_graphic)
 	enemy_graphics_.trainer.replace_by_instance(enemy.battle_graphic)
 	

@@ -27,20 +27,21 @@ func _on_player_entered(body: Node) -> void:
 func choose_starter():
 	interact = false
 	if starter == STARTER.bulbasaur:
-		yield(dialogue.set_text("Ah! BULBASUAR is your choice.\nIt's very easy to raise."), "done")
-		yield(dialogue.set_question("So, RED, you're claiming the GRASS POKeMON BULBASAUR?"), "done")
+		yield(dialogue.set_question(["Ah! BULBASUAR is your choice.\nIt's very easy to raise.", "So, RED, you're claiming the GRASS POKeMON BULBASAUR?"]), "done")
 		if choice == "yes":
 			bulbasaur.visible = false
-			yield(dialogue.set_text("This POKeMON is really quite\nenergetic!"), "done")
-			yield(dialogue.set_text("RED received the BULBASAUR\nfrom PROF.OAK!"), "done")
-			find_parent("OaksLab").starter_chosen = true
+			dialogue.set_dialogue(["This POKeMON is really quite\nenergetic!", "RED received the BULBASAUR\nfrom PROF.OAK!"])
+			yield(dialogue, "finished")
+			Flags.Starter_Pokemon_Chosen = true
 			player.trainer.pokemon.insert(0, pokemon)
 			var directions = ["DOWN", "DOWN", "RIGHT", "RIGHT", "RIGHT", "RIGHT", "RIGHT", "UP"]
 			rival.cutscene_input_action_pressed(directions)
 			yield(rival, "npc_script_done")
-			yield(dialogue.set_text("GARY: I'll take this one then!"), "done")
+			dialogue.set_dialogue(["GARY: I'll take this one then!"])
+			yield(dialogue, "finished")
 			charmander.queue_free()
-			yield(dialogue.set_text("Gary revieved the CHARMANDER\nfrom PROF OAK"), "done")
+			dialogue.set_dialogue(["Gary revieved the CHARMANDER\nfrom PROF OAK"])
+			yield(dialogue, "finished")
 			bulbasaur.queue_free()
 		elif choice == "no":
 			pass
@@ -52,7 +53,7 @@ func choose_starter():
 			get_node(".").visible = false
 			yield(dialogue.set_text("This POKeMON is really quite\nenergetic!"), "done")
 			yield(dialogue.set_text("RED received the BULBASAUR\nfrom PROF.OAK!"), "done")
-			find_parent("OaksLab").starter_chosen = true
+			Flags.Starter_Pokemon_Chosen = true
 			player.trainer.pokemon.insert(0, pokemon)
 			queue_free()
 		elif choice == "no":
@@ -64,7 +65,7 @@ func choose_starter():
 			get_node(".").visible = false
 			yield(dialogue.set_text("This POKeMON is really quite\nenergetic!"), "done")
 			yield(dialogue.set_text("RED received the BULBASAUR\nfrom PROF.OAK!"), "done")
-			find_parent("OaksLab").starter_chosen = true
+			Flags.Starter_Pokemon_Chosen = true
 			player.trainer.pokemon.insert(0, pokemon)
 			queue_free()
 		elif choice == "no":

@@ -94,6 +94,7 @@ func need_to_turn():
 	
 	if facing_direction != new_facing_direction:
 		facing_direction = new_facing_direction
+		emit_signal("player_stopped_signal")
 		return true
 	facing_direction = new_facing_direction
 	return false
@@ -171,37 +172,17 @@ func move(delta):
 		
 func cutscene_input_action_pressed(directions):
 	for d in directions:
-		is_moving = true
-		if d == "DOWN":
-			input_direction = Vector2.DOWN
-		elif d == "UP":
-			input_direction = Vector2.UP
-		elif d == "LEFT":
-			input_direction = Vector2.LEFT
-		elif d == "RIGHT":
-			input_direction = Vector2.RIGHT
-
-		anim_tree.set("parameters/Idle/blend_position", input_direction)
-		anim_tree.set("parameters/Walk/blend_position", input_direction)
-		anim_tree.set("parameters/Turn/blend_position", input_direction)
-		initial_position = position
+		if d == "UP" || d == "DOWN" || d == "LEFT" || d == "RIGHT":
+			if d == "UP":
+				input_direction = Vector2.UP
+			if d == "DOWN":
+				input_direction = Vector2.DOWN
+			if d == "LEFT":
+				input_direction = Vector2.LEFT
+			if d == "RIGHT":
+				input_direction = Vector2.RIGHT
 		yield(get_node("."), "player_stopped_signal")
+			
+	input_direction = Vector2.ZERO
+	emit_signal("player_script_done")
 
-func cutscene_turn_player(directions):
-	for d in directions:
-		is_moving = false
-		player_state = PlayerState.TURNING
-		anim_state.travel("Turn")
-		if d == "TURN DOWN":
-			input_direction = Vector2.DOWN
-		elif d == "TURN UP":
-			input_direction = Vector2.UP
-		elif d == "TURN LEFT":
-			input_direction = Vector2.LEFT
-		elif d == "TURN RIGHT":
-			input_direction = Vector2.RIGHT
-
-		anim_tree.set("parameters/Idle/blend_position", input_direction)
-		anim_tree.set("parameters/Walk/blend_position", input_direction)
-		anim_tree.set("parameters/Turn/blend_position", input_direction)
-		initial_position = position

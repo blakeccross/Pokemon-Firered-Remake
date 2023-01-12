@@ -155,10 +155,10 @@ script = ExtResource( 10 )
 starter = 2
 
 [node name="Sprite" type="Sprite" parent="YSort/Pokemon/charmander"]
+position = Vector2( 0, 2 )
 texture = ExtResource( 9 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Pokemon/charmander"]
-position = Vector2( 0, -2 )
 shape = SubResource( 5 )
 
 [node name="Door" parent="." instance=ExtResource( 3 )]

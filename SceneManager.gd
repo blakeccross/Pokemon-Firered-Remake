@@ -42,6 +42,22 @@ func transition_exit_pokemon_scene():
 	$Transition.hide_barx_x()
 	$battle_scene.unload_pokemon_scene()
 	
+	
+func transition_to_trainer_battle_scene(trainer):
+	$Transition.show_barx_x()
+	yield($Transition/TextureRect, "trans_done")
+	$Transition.hide_barx_x()
+	$battle_scene.load_Trainer_Battle_scene(trainer)
+	yield($battle_scene/battle, "done")
+	transition_exit_trainer_battle_scene(trainer)
+	
+func transition_exit_trainer_battle_scene(trainer):
+	$Transition.show_barx_x()
+	yield($Transition/TextureRect, "trans_done")
+	$Transition.hide_barx_x()
+	$battle_scene.unload_pokemon_scene()
+	play_script_(trainer, trainer.NPC.world_loose)
+	
 func finished_fading():
 	match transition_type:
 		TransitionType.NEW_SCENE:
@@ -57,6 +73,13 @@ func finished_fading():
 	
 	$ScreenTransition/AnimationPlayer.play("FadeToNormal")
 	
-#func _on_encounter() -> void:
-	#var battle_scene = preload("res://Battle/Battle_Scene.tscn").instance()
-	#$battle.add_child(battle_scene)
+func play_script_(parent, script):
+	var s
+	if script is Script:
+		s = script.new()
+	#elif script is TextModel:
+	#	s = GenericEncounter.new()
+	#	s.text = script
+
+	parent.add_child(s)
+	return s

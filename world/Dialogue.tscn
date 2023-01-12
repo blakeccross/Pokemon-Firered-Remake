@@ -19,22 +19,28 @@ export(String, FILE, \"*.json\") var d_file
 var dialogue_text = {}
 signal finished
 signal yes_no_selection
+signal done
 
 var dialogue_index = 0
 var finished = false
 
 func _ready() -> void:
-	print()
-	Utils.connect(\"text\", self, \"set_text\")
+	Utils.connect(\"display_dialogue\", self, \"set_dialogue\")
 	yes_no_menu_.set_process_input(false)
 	yes_no_menu_.connect(\"activated\", self, \"_on_yes_no_activated\")
 	
 func _physics_process(delta: float) -> void:
 	arrow_.visible = finished
 	if Input.is_action_just_pressed(\"ui_accept\"):
-		start()
+		on_display_dialogue()
+		
+func set_dialogue(text):
+	dialogue_text = text
+	set_physics_process(true)
+	on_display_dialogue()
 
-func start():
+
+func on_display_dialogue():
 	control.visible = true
 	var player = Utils.get_player()
 	player.stop_input = true
@@ -43,6 +49,7 @@ func start():
 		finished = false
 		info_text_.bbcode_text = dialogue_text[dialogue_index]
 		info_text_.percent_visible = 0
+		dialogue_index += 1
 		tween_.interpolate_property(
 			info_text_, \"percent_visible\", 0, 1, 1,
 			Tween.TRANS_LINEAR, Tween.EASE_IN_OUT
@@ -51,9 +58,10 @@ func start():
 	else:
 		control.visible = false
 		emit_signal(\"finished\")
+		dialogue_index = 0
+		set_physics_process(false)
 		player.stop_input = false
-	dialogue_index += 1
-
+	
 
 func _on_Tween_tween_completed(object: Object, key: NodePath) -> void:
 	finished = true

@@ -11,6 +11,7 @@ script/source = "extends KinematicBody2D
 
 signal player_moving_signal
 signal player_stopped_signal
+signal player_finished_turning
 signal player_entering_door_signal
 signal player_entered_door_signal
 signal player_script_done
@@ -39,8 +40,9 @@ var player_state = PlayerState.IDLE
 var facing_direction = FacingDirection.DOWN
 
 var initial_position = Vector2(0, 0)
-var input_direction = Vector2(0, 1)
+var input_direction = Vector2(0, 0)
 var is_moving = false
+var cut_scene = false
 var stop_input: bool = false
 var percent_moved_to_next_tile = 0.0
 
@@ -73,10 +75,11 @@ func _physics_process(delta):
 		is_moving = false
 
 func process_player_movement_input():
-	if input_direction.y == 0:
-		input_direction.x = int(Input.is_action_pressed(\"ui_right\")) - int(Input.is_action_pressed(\"ui_left\"))
-	if input_direction.x == 0:
-		input_direction.y = int(Input.is_action_pressed(\"ui_down\")) - int(Input.is_action_pressed(\"ui_up\"))
+	if !cut_scene:
+		if input_direction.y == 0:
+			input_direction.x = int(Input.is_action_pressed(\"ui_right\")) - int(Input.is_action_pressed(\"ui_left\"))
+		if input_direction.x == 0:
+			input_direction.y = int(Input.is_action_pressed(\"ui_down\")) - int(Input.is_action_pressed(\"ui_up\"))
 		
 	if input_direction != Vector2.ZERO:
 		anim_tree.set(\"parameters/Idle/blend_position\", input_direction)
@@ -104,6 +107,7 @@ func need_to_turn():
 		new_facing_direction = FacingDirection.DOWN
 	
 	if facing_direction != new_facing_direction:
+		emit_signal(\"player_finished_turning\")
 		facing_direction = new_facing_direction
 		return true
 	facing_direction = new_facing_direction
@@ -182,45 +186,28 @@ func move(delta):
 		
 func cutscene_input_action_pressed(directions):
 	for d in directions:
-		is_moving = true
-		if d == \"DOWN\":
-			is_moving = true
-			input_direction = Vector2.DOWN
-		elif d == \"TURN DOWN\":
-			is_moving = false
-			player_state = PlayerState.TURNING
-			anim_state.travel(\"Turn\")
-			input_direction = Vector2.DOWN
-		elif d == \"UP\":
-			is_moving = true
-			input_direction = Vector2.UP
-		elif d == \"TURN UP\":
-			is_moving = false
-			player_state = PlayerState.TURNING
-			anim_state.travel(\"Turn\")
-			input_direction = Vector2.UP
-		elif d == \"LEFT\":
-			is_moving = true
-			input_direction = Vector2.LEFT
-		elif d == \"TURN LEFT\":
-			is_moving = false
-			player_state = PlayerState.TURNING
-			anim_state.travel(\"Turn\")
-			input_direction = Vector2.LEFT
-		elif d == \"RIGHT\":
-			is_moving = true
-			input_direction = Vector2.RIGHT
-		elif d == \"TURN RIGHT\":
-			is_moving = false
-			player_state = PlayerState.TURNING
-			anim_state.travel(\"Turn\")
-			input_direction = Vector2.RIGHT
-
-		anim_tree.set(\"parameters/Idle/blend_position\", input_direction)
-		anim_tree.set(\"parameters/Walk/blend_position\", input_direction)
-		anim_tree.set(\"parameters/Turn/blend_position\", input_direction)
-		initial_position = position
-		yield(get_node(\".\"), \"player_stopped_signal\")
+		if d == \"UP\" || d == \"DOWN\" || d == \"LEFT\" || d == \"RIGHT\":
+			if d == \"UP\":
+				input_direction = Vector2.UP
+			if d == \"DOWN\":
+				input_direction = Vector2.DOWN
+			if d == \"LEFT\":
+				input_direction = Vector2.LEFT
+			if d == \"RIGHT\":
+				input_direction = Vector2.RIGHT
+			yield(self, \"player_stopped_signal\")
+		if d == \"TURN UP\" || d == \"TURN DOWN\" || d == \"TURN LEFT\" || d == \"TURN RIGHT\":
+			if d == \"TURN UP\":
+				input_direction = Vector2.UP
+			if d == \"TURN DOWN\":
+				input_direction = Vector2.DOWN
+			if d == \"TURN LEFT\":
+				input_direction = Vector2.LEFT
+			if d == \"TURN RIGHT\":
+				input_direction = Vector2.RIGHT
+			yield(self, \"player_finished_turning\")
+			
+	input_direction = Vector2.ZERO
 	emit_signal(\"player_script_done\")
 "
 

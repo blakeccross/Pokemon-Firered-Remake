@@ -74,6 +74,7 @@ run/main_scene="res://SceneManager.tscn"
 [autoload]
 
 Utils="*res://Autoload/utils.gd"
+Flags="*res://flags.gd"
 
 [display]
 

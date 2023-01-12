@@ -6,7 +6,7 @@
 [resource]
 script = ExtResource( 1 )
 name = "spike"
-power = 1
+power = 80
 accuracy = 1.0
 type = 0
 fx = ExtResource( 2 )

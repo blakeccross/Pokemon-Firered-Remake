@@ -1,8 +1,19 @@
-[gd_resource type="Resource" load_steps=5 format=2]
+[gd_resource type="Resource" load_steps=10 format=2]
 
 [ext_resource path="res://npc_model.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/rival_Spritesheet.png" type="Texture" id=2]
 [ext_resource path="res://text_model.gd" type="Script" id=3]
+[ext_resource path="res://NPC/blue/blue_trainer_graphic.tscn" type="PackedScene" id=4]
+[ext_resource path="res://pokemon/bulbasaur/bulbasaur.tres" type="Resource" id=5]
+[ext_resource path="res://Rival_Loose.gd" type="Script" id=6]
+
+[sub_resource type="Resource" id=3]
+script = ExtResource( 3 )
+text = "Ahhhhhhhhh"
+
+[sub_resource type="Resource" id=4]
+script = ExtResource( 3 )
+text = "You suck"
 
 [sub_resource type="Resource" id=2]
 script = ExtResource( 3 )
@@ -12,12 +23,17 @@ Is that right..."
 [resource]
 script = ExtResource( 1 )
 id = "RIVAL"
-name = ""
-movement_type = "FACE LEFT"
-pokemon = [  ]
+name = "Rival"
+movement_type = "FACE UP"
+disable_collision = false
+pokemon = [ ExtResource( 5 ) ]
 items = [  ]
 is_player = false
 world_encounter = SubResource( 2 )
+battle_begin = SubResource( 3 )
+battle_loose = SubResource( 4 )
+world_loose = ExtResource( 6 )
 beat_flag_mutations = [  ]
 loose_flag_mutations = [  ]
+battle_graphic = ExtResource( 4 )
 world_graphic = ExtResource( 2 )

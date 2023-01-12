@@ -14,6 +14,7 @@ script = ExtResource( 1 )
 id = "WOMAN_1"
 name = ""
 movement_type = "WANDER AROUND"
+disable_collision = false
 pokemon = [  ]
 items = [  ]
 is_player = false

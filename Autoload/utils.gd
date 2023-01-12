@@ -1,8 +1,7 @@
 extends Node
 
-#signal display_dialogue(text_key)
+signal display_dialogue(dialogue_text)
 var player_pokemon = []
-var OakEntered = false
 var inBattle = false
 
 func _ready():

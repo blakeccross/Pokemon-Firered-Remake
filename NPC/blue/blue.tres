@@ -9,6 +9,7 @@ script = ExtResource( 2 )
 id = ""
 name = "Blue"
 movement_type = ""
+disable_collision = false
 pokemon = [ ExtResource( 3 ) ]
 items = [  ]
 is_player = true

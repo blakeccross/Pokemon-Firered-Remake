@@ -6,8 +6,8 @@ onready var player = Utils.get_player()
 onready var prof_oak = get_parent().get_node("Prof_Oak")
 
 func _on_DialogueTriggger_body_entered(body: Node) -> void:
-	if Utils.OakEntered == false:
-		Utils.OakEntered = true
+	if Flags.OakEntered == false:
+		Flags.OakEntered = true
 		prof_oak.visible = true
 		prof_oak.disable_collision()
 		get_parent().get_parent().get_node("palletTown_music").stream_paused = true
@@ -21,7 +21,7 @@ func _on_DialogueTriggger_body_entered(body: Node) -> void:
 		prof_oak.cutscene_input_action_pressed(directions)
 		yield(prof_oak, "npc_script_done")
 		OakLeadPlayerToLabLeft()
-	if Utils.OakEntered == true:
+	if Flags.OakEntered == true:
 		return
 	
 func OakLeadPlayerToLabLeft():
