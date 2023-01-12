@@ -13,7 +13,9 @@ text = "Ahhhhhhhhh"
 
 [sub_resource type="Resource" id=4]
 script = ExtResource( 3 )
-text = "You suck"
+text = "What?
+Unbelievable!
+I picked the wrong POKeMON!"
 
 [sub_resource type="Resource" id=2]
 script = ExtResource( 3 )

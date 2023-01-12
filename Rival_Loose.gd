@@ -9,8 +9,9 @@ func _ready() -> void:
 	var PlayerTurnAround = ["TURN UP"]
 	player.cutscene_input_action_pressed(PlayerTurnAround)
 	player.surprise()
-	yield(dialogue.set_text("GARY: I hate you!"), "done")
-	var directions = ["LEFT", "DOWN", "DOWN", "DOWN", "DOWN", "DOWN"]
+	dialogue.set_dialogue(["GARY: Ok! I'll make my\nPOKeMON battle to toughen it up!", "RED! Gramps!\nSmell you later!"])
+	yield(dialogue, "finished")
+	var directions = ["RIGHT", "DOWN", "DOWN", "DOWN", "DOWN", "LEFT", "DOWN", "DOWN"]
 	rival.cutscene_input_action_pressed(directions)
 	yield(rival, "npc_script_done")
 	player.cut_scene = false

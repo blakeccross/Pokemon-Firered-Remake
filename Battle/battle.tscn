@@ -49,6 +49,7 @@ position = Vector2( -3, 19 )
 [node name="trainer" parent="enemy" instance_placeholder="res://NPC/blue/blue_trainer_graphic.tscn"]
 
 [node name="stats" parent="enemy" instance=ExtResource( 15 )]
+visible = false
 position = Vector2( -160, -16 )
 
 [node name="player" type="Position2D" parent="."]
