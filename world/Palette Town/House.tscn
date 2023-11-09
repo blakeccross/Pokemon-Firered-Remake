@@ -1,0 +1,29 @@
+[gd_scene load_steps=4 format=3 uid="uid://bewevghx0heoo"]
+
+[ext_resource type="Texture2D" uid="uid://dly3nlbin5o1y" path="res://Assets/Buildings/house1.png" id="1_x0k5d"]
+[ext_resource type="PackedScene" uid="uid://8j6by2jqmtfu" path="res://world/Door.tscn" id="2_cuxtg"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_x1bar"]
+size = Vector2(80, 64)
+
+[node name="House" type="StaticBody2D"]
+y_sort_enabled = true
+collision_layer = 2
+collision_mask = 0
+collision_priority = 3.0
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(0, -80)
+texture = ExtResource("1_x0k5d")
+centered = false
+region_rect = Rect2(96, 336, 64, 64)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(40, -32)
+shape = SubResource("RectangleShape2D_x1bar")
+
+[node name="Door" parent="." instance=ExtResource("2_cuxtg")]
+position = Vector2(16, -16)
+next_scene_path = "res://world/RivalHomeFloor.tscn"
+spawn_location = Vector2(64, 112)
+spawn_direction = Vector2(2.08165e-12, -1)

@@ -1,85 +1,58 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=8 format=3 uid="uid://owe3bs01sbd2"]
 
-[ext_resource path="res://Assets/Buildings/pallet town/rival_home.png" type="Texture" id=1]
-[ext_resource path="res://world/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://world/Door.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Assets/Buildings/pallet town/mat.png" type="Texture" id=4]
+[ext_resource type="Texture2D" uid="uid://bov55ksjnpvxw" path="res://Assets/Buildings/pallet town 2/rival_home.png" id="1_7ntjn"]
+[ext_resource type="PackedScene" uid="uid://b47hry70n4bv8" path="res://world/Player.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://8j6by2jqmtfu" path="res://world/Door.tscn" id="3"]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8, 88 )
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(16, 176)
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 104, 8 )
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(208, 16)
 
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 64, 8 )
+[sub_resource type="RectangleShape2D" id="4"]
+size = Vector2(128, 16)
 
-[sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 32, 8 )
+[sub_resource type="RectangleShape2D" id="5"]
+size = Vector2(64, 16)
 
 [node name="RivalHomeFloor" type="Node2D"]
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_left = -208.0
-margin_top = -208.0
-margin_right = 392.0
-margin_bottom = 392.0
-color = Color( 0, 0, 0, 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+color = Color(0, 0, 0, 1)
 
 [node name="TextureRect" type="TextureRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-texture = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture = ExtResource("1_7ntjn")
 
 [node name="Mat" type="TextureRect" parent="."]
-margin_left = 56.0
-margin_top = 128.0
-margin_right = 88.0
-margin_bottom = 144.0
-texture = ExtResource( 4 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 2
 collision_mask = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( -8, 88 )
-shape = SubResource( 1 )
+position = Vector2(-8, 88)
+shape = SubResource("1")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 216, 88 )
-shape = SubResource( 1 )
+position = Vector2(216, 88)
+shape = SubResource("1")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 104, 24 )
-shape = SubResource( 2 )
+position = Vector2(104, 24)
+shape = SubResource("2")
 
 [node name="CollisionShape2D5" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 144, 152 )
-shape = SubResource( 4 )
+position = Vector2(144, 152)
+shape = SubResource("4")
 
 [node name="CollisionShape2D6" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 32, 152 )
-shape = SubResource( 5 )
+position = Vector2(32, 152)
+shape = SubResource("5")
 
-[node name="YSort" type="YSort" parent="."]
+[node name="Door" parent="." instance=ExtResource("3")]
+position = Vector2(64, 144)
+next_scene_path = "res://world/PlayerHomeFloor1.tscn"
 
-[node name="Player" parent="YSort" instance=ExtResource( 2 )]
-position = Vector2( 64, 128 )
-
-[node name="Door" parent="." instance=ExtResource( 3 )]
-modulate = Color( 0.12549, 0.313726, 0.85098, 1 )
-position = Vector2( 64, 144 )
-next_scene_path = "res://world/Palette Town.tscn"
-is_invisible = true
-spawn_location = Vector2( 112, 80 )
-spawn_direction = Vector2( 0, 1 )
+[node name="Player" parent="." instance=ExtResource("2")]
+position = Vector2(64, 112)

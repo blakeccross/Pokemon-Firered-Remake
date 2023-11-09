@@ -1,23 +1,23 @@
-[gd_resource type="Resource" load_steps=5 format=2]
+[gd_resource type="Resource" script_class="NPCModel" load_steps=6 format=3 uid="uid://j2rkmg38xb5f"]
 
-[ext_resource path="res://NPC/red/red_battle_graphic.tscn" type="PackedScene" id=1]
-[ext_resource path="res://npc_model.gd" type="Script" id=2]
-[ext_resource path="res://text_model.gd" type="Script" id=3]
+[ext_resource type="PackedScene" path="res://NPC/red/red_battle_graphic.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/npc_model.gd" id="2"]
+[ext_resource type="Script" path="res://scripts/text_model.gd" id="3"]
+[ext_resource type="Resource" uid="uid://dqh2ey5g6dsds" path="res://pokemon/squirle/squirtle.tres" id="4"]
 
-[sub_resource type="Resource" id=1]
-script = ExtResource( 3 )
+[sub_resource type="Resource" id="1"]
+script = ExtResource("3")
 text = "What!? A pokemon!?"
 
 [resource]
-script = ExtResource( 2 )
+script = ExtResource("2")
 id = ""
 name = "Red"
 movement_type = ""
-disable_collision = false
-pokemon = [  ]
-items = [  ]
+pokemon = Array[Resource]([ExtResource("4")])
+items = Array[Resource]([])
 is_player = true
-battle_begin = SubResource( 1 )
-beat_flag_mutations = [  ]
-loose_flag_mutations = [  ]
-battle_graphic = ExtResource( 1 )
+battle_begin = SubResource("1")
+beat_flag_mutations = Array[Resource]([])
+loose_flag_mutations = Array[Resource]([])
+battle_graphic = ExtResource("1")

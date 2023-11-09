@@ -1,24 +1,23 @@
-[gd_resource type="Resource" load_steps=5 format=2]
+[gd_resource type="Resource" script_class="PokemonModel" load_steps=5 format=3 uid="uid://vf0c56ppoqev"]
 
-[ext_resource path="res://pokemon/pokemon_model.gd" type="Script" id=1]
-[ext_resource path="res://pokemon/charmander/charmander_battle_graphic.tscn" type="PackedScene" id=2]
-[ext_resource path="res://moves/spike/spike.tres" type="Resource" id=3]
-[ext_resource path="res://Assets/Pokemon/Charmander.png" type="Texture" id=4]
+[ext_resource type="Script" path="res://pokemon/pokemon_model.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://bj4qwbdvn52ro" path="res://Assets/Pokemon/Charmander.png" id="2_cdmld"]
+[ext_resource type="Resource" uid="uid://bfm6gm18t5k0y" path="res://moves/sand-attack/sand-attack.tres" id="2_v7rq4"]
+[ext_resource type="Resource" uid="uid://ckli3y06qpq0r" path="res://moves/scratch/scratch.tres" id="3_lffwi"]
 
 [resource]
-script = ExtResource( 1 )
+script = ExtResource("1")
 name = "Charmander"
+encounter_chance = 0
 level = 5
 hp = 20
 max_hp = 20
 xp = 1
 exp_stat = 6
-attack = 30
+attack = 1
 defense = 1
-speed = 6
+speed = 4
 wild = false
-moves = [ ExtResource( 3 ) ]
-moves_to_learn = {
-}
-battle_graphics = ExtResource( 2 )
-texture = ExtResource( 4 )
+moves = Array[Resource]([ExtResource("2_v7rq4"), ExtResource("3_lffwi")])
+moves_to_learn = {}
+sprite_sheet = ExtResource("2_cdmld")

@@ -17,6 +17,6 @@ func _play():
 		tween_.interpolate_callback(defender_graphics, 0.5, "set_visible", false)
 		tween_.interpolate_callback(defender_graphics, 0.55, "set_visible", true)
 		wait_(1.3)
-		yield(tween_.block(), "done")
+		await tween_.done
 
 	emit_signal("done")

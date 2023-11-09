@@ -2,8 +2,8 @@ extends CanvasLayer
 
 const PokemonPartyScreen = preload("res://world/PokemonPartyScreen.tscn")
 
-onready var select_arrow = $Control/NinePatchRect/TextureRect
-onready var menu = $Control
+@onready var select_arrow = $Control/NinePatchRect/TextureRect
+@onready var menu = $Control
 
 enum ScreenLoaded { NOTHING, JUST_MENU, PARTY_SCREEN, }
 var screen_loaded = ScreenLoaded.NOTHING
@@ -15,7 +15,7 @@ func _ready():
 	#select_arrow.rect_position.y = 6 + (selected_option % 6) * 15
 	if Utils.player_pokemon.size() == 0:
 		$"Control/NinePatchRect/VBoxContainer/Pokemon".visible = false
-		select_arrow.rect_position.y = 5 + (selected_option % 5) * 15
+		select_arrow.position.y = 5 + (selected_option % 5) * 15
 
 func load_party_screen():
 	menu.visible = false
@@ -48,14 +48,14 @@ func _unhandled_input(event):
 				
 			elif event.is_action_pressed("ui_down"):
 				selected_option += 1
-				select_arrow.rect_position.y = 5 + (selected_option % 5) * 15
+				select_arrow.position.y = 5 + (selected_option % 5) * 15
 				
 			elif event.is_action_pressed("ui_up"):
 				if selected_option == 0:
 					selected_option = 5
 				else:
 					selected_option -= 1
-				select_arrow.rect_position.y = 5 + (selected_option % 5) * 15
+				select_arrow.position.y = 5 + (selected_option % 5) * 15
 			elif event.is_action_pressed("z"):
 				Utils.get_scene_manager().transition_to_party_screen()
 			

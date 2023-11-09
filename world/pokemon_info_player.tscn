@@ -1,9 +1,9 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=7 format=3]
 
-[ext_resource path="res://pokemon_info.gd" type="Script" id=1]
-[ext_resource path="res://world/Tween.gd" type="Script" id=2]
-[ext_resource path="res://Assets/UI/pkmnfl.ttf" type="DynamicFontData" id=3]
-[ext_resource path="res://Assets/UI/player_health_ui.png" type="Texture" id=4]
+[ext_resource type="Script" path="res://scripts/pokemon_info.gd" id="1"]
+[ext_resource type="Script" path="res://world/Tween.gd" id="2"]
+[ext_resource type="DynamicFontData" uid="uid://dsth3ynmomsra" path="res://Assets/UI/pkmnfl.ttf" id="3"]
+[ext_resource type="Texture" uid="uid://c7etv27pmemh7" path="res://Assets/UI/player_health_ui.png" id="4"]
 
 [sub_resource type="DynamicFont" id=3]
 size = 11

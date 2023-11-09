@@ -1,18 +1,17 @@
-[gd_resource type="Resource" load_steps=4 format=2]
+[gd_resource type="Resource" load_steps=4 format=3 uid="uid://bo58nnyaq8vop"]
 
-[ext_resource path="res://NPC/red/red_battle_graphic.tscn" type="PackedScene" id=1]
-[ext_resource path="res://npc_model.gd" type="Script" id=2]
-[ext_resource path="res://pokemon/charmander/charmander.tres" type="Resource" id=3]
+[ext_resource type="PackedScene" path="res://NPC/red/red_battle_graphic.tscn" id="1"]
+[ext_resource type="Script" path="res://scripts/npc_model.gd" id="2"]
+[ext_resource type="Resource" path="res://pokemon/charmander/charmander.tres" id="3"]
 
 [resource]
-script = ExtResource( 2 )
+script = ExtResource("2")
 id = ""
 name = "Blue"
 movement_type = ""
-disable_collision = false
-pokemon = [ ExtResource( 3 ) ]
-items = [  ]
+pokemon = [ExtResource("3")]
+items = []
 is_player = true
-beat_flag_mutations = [  ]
-loose_flag_mutations = [  ]
-battle_graphic = ExtResource( 1 )
+beat_flag_mutations = []
+loose_flag_mutations = []
+battle_graphic = ExtResource("1")

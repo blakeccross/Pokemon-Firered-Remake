@@ -3,7 +3,7 @@ extends Node2D
 enum Options { FIRST_SLOT, SECOND_SLOT, THIRD_SLOT, FOURTH_SLOT, FIFTH_SLOT, SIXTH_SLOT, CANCEL }
 var selected_option: int = Options.FIRST_SLOT
 
-onready var options: Dictionary = {
+@onready var options: Dictionary = {
 	Options.FIRST_SLOT: $FirstPokemonSlot/Background,
 	Options.SECOND_SLOT: $SecondPokemonSlot/Background,
 	Options.THIRD_SLOT: $ThirdPokemonSlot/Background,
@@ -12,8 +12,6 @@ onready var options: Dictionary = {
 	Options.SIXTH_SLOT: $SixthPokemonSlot/Background,
 	Options.CANCEL: $CancelSprite,
 }
-
-onready var player = Utils.get_player()
 
 
 func unset_active_option():
@@ -29,7 +27,7 @@ func _ready():
 func _input(event):
 	if event.is_action_pressed("ui_down"):
 		unset_active_option()
-		selected_option = (selected_option + 1) % player.trainer.pokemon.size()
+		selected_option = (selected_option + 1) % 7
 		set_active_option()
 	elif event.is_action_pressed("ui_up"):
 		unset_active_option()

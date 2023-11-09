@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://ep0yiastn484"]
+
+[ext_resource type="Texture2D" uid="uid://6vcm3qihgr4q" path="res://Assets/Grass/tall_grass.png" id="1_4p7hv"]
+
+[node name="stepped_tall_grass" type="Sprite2D"]
+texture = ExtResource("1_4p7hv")
+centered = false
+offset = Vector2(2.08165e-12, 4)
+region_enabled = true
+region_rect = Rect2(2.08165e-12, 10, 16, 6)

@@ -1,12 +1,12 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" script_class="MoveModel" load_steps=3 format=3 uid="uid://dqf73d8esd0a7"]
 
-[ext_resource path="res://moves/move_model.gd" type="Script" id=1]
-[ext_resource path="res://moves/spike/spike_graphic.tscn" type="PackedScene" id=2]
+[ext_resource type="Script" path="res://moves/move_model.gd" id="1"]
+[ext_resource type="PackedScene" path="res://moves/spike/spike_graphic.tscn" id="2"]
 
 [resource]
-script = ExtResource( 1 )
+script = ExtResource("1")
 name = "spike"
-power = 80
+power = 12
 accuracy = 1.0
 type = 0
-fx = ExtResource( 2 )
+fx = ExtResource("2")

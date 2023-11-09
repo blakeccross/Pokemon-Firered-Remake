@@ -8,8 +8,9 @@ enum Type {
 	electric
 }
 
-export(String) var name
-export(int) var power = 1
-export(float) var accuracy = 1.0
-export(Type) var type
-export(PackedScene) var fx
+@export var name: String
+@export var pp: int = 1
+@export var power: int = 1
+@export_range(0, 1.0) var accuracy: float = 1.0
+@export var type: Type
+@export var fx: PackedScene

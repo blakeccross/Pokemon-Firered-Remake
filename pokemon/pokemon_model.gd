@@ -7,29 +7,34 @@ signal hp_changed
 signal max_hp_changed
 signal xp_changed
 
-export(String) var name:String setget set_name
-export(int) var level:int  setget set_level, get_level
-export(int) var hp:int setget set_hp
-export(int) var max_hp:int setget set_max_hp
-export(int) var xp:int = 1 setget set_xp
-export(int) var exp_stat:int = 1
-export(int) var attack:int = 1
-export(int) var defense:int = 1
-export(int) var speed:int = 1
-export(bool) var wild:int
-export(Array, Resource) var moves
-export(Dictionary) var moves_to_learn
-export(PackedScene) var battle_graphics
-export(Texture) var texture
+@export var name: String
+
+@export_range(0, 100) var encounter_chance = 0
+@export_range(0, 100) var level: int
+		
+@export var hp: int
+@export var max_hp: int
+@export var xp:int = 1
+@export var exp_stat:int = 1
+@export var attack:int = 1
+@export var defense:int = 1
+@export var speed:int = 1
+@export var wild: bool
+@export var moves: Array[Resource]
+@export var moves_to_learn: Dictionary
+#@export var battle_graphics: PackedScene
+#@export var front_battle_graphic: AtlasTexture
+#@export var back_battle_graphic: AtlasTexture
+@export var sprite_sheet: Texture2D
 
 func prop_change_(property:String, from, to) -> void:
 	emit_signal(property + "_changed", from, to)
 	emit_signal("changed")
 
-func set_name(value:String) -> void:
-	var old := name
-	name = value
-	prop_change_("name", old, value)
+#func set_name(value):
+#	var old := name
+#	name = value
+#	prop_change_("name", old, value)
 
 func set_level(value) -> void:
 	pass
@@ -41,13 +46,13 @@ func set_hp(value:int) -> void:
 
 func set_max_hp(value:int) -> void:
 	var old := max_hp
-	max_hp = value
-	prop_change_("max_hp", old, value)
+#	max_hp = value
+#	prop_change_("max_hp", old, value)
 
 func set_xp(value:int) -> void:
 	var old := xp
-	xp = value
-	prop_change_("xp", old, value)
+#	xp = value
+#	prop_change_("xp", old, value)
 
 func is_dead() -> bool:
 	return hp <= 0

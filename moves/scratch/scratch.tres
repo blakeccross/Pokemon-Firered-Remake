@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MoveModel" load_steps=2 format=3 uid="uid://ckli3y06qpq0r"]
+
+[ext_resource type="Script" path="res://moves/move_model.gd" id="1_ri0mg"]
+
+[resource]
+script = ExtResource("1_ri0mg")
+name = "Scratch"
+pp = 35
+power = 40
+accuracy = 1.0
+type = 0

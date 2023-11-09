@@ -4,9 +4,9 @@ class_name TweenEx
 signal done
 
 func _ready() -> void:
-	set_process_unhandled_input(false)
+	#set_process_unhandled_input(false)
 
-func block() -> Tween:
+func block():
 	connect("tween_all_completed", self, "_on_tween_all_completed", [], CONNECT_DEFERRED | CONNECT_ONESHOT | CONNECT_REFERENCE_COUNTED)
 	start()
 	call_deferred("set_process_unhandled_input", true)

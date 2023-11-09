@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="MoveModel" load_steps=2 format=3 uid="uid://bfm6gm18t5k0y"]
+
+[ext_resource type="Script" path="res://moves/move_model.gd" id="1_fe83n"]
+
+[resource]
+script = ExtResource("1_fe83n")
+name = "Sand-Attack"
+pp = 15
+power = 0
+accuracy = 1.0
+type = 0

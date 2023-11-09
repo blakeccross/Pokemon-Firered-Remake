@@ -1,26 +1,24 @@
-[gd_resource type="Resource" load_steps=7 format=2]
+[gd_resource type="Resource" script_class="PokemonModel" load_steps=6 format=3 uid="uid://dqh2ey5g6dsds"]
 
-[ext_resource path="res://pokemon/pokemon_model.gd" type="Script" id=1]
-[ext_resource path="res://moves/spike/spike.tres" type="Resource" id=2]
-[ext_resource path="res://pokemon/squirle/squirtle_battle_graphic.tscn" type="PackedScene" id=3]
-[ext_resource path="res://moves/horn/horn.tres" type="Resource" id=4]
-[ext_resource path="res://moves/fire/burn.tres" type="Resource" id=5]
-[ext_resource path="res://Assets/Pokemon/Squirtle.png" type="Texture" id=6]
+[ext_resource type="Script" path="res://pokemon/pokemon_model.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://df0abea3i215g" path="res://Assets/Pokemon/Squirtle.png" id="1_tmotm"]
+[ext_resource type="Resource" uid="uid://dqf73d8esd0a7" path="res://moves/spike/spike.tres" id="2"]
+[ext_resource type="Resource" uid="uid://bgi55yj1xi5v0" path="res://moves/horn/horn.tres" id="4"]
+[ext_resource type="Resource" path="res://moves/fire/burn.tres" id="5"]
 
 [resource]
-script = ExtResource( 1 )
-name = "Squirtle"
+script = ExtResource("1")
+name = "SQUIRTLE"
+encounter_chance = 0
 level = 16
 hp = 20
 max_hp = 20
 xp = 3
 exp_stat = 6
-attack = 26
+attack = 100
 defense = 10
 speed = 10
 wild = false
-moves = [ ExtResource( 2 ), ExtResource( 4 ), ExtResource( 5 ) ]
-moves_to_learn = {
-}
-battle_graphics = ExtResource( 3 )
-texture = ExtResource( 6 )
+moves = Array[Resource]([ExtResource("2"), ExtResource("4"), ExtResource("5")])
+moves_to_learn = {}
+sprite_sheet = ExtResource("1_tmotm")

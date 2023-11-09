@@ -1,24 +1,23 @@
-[gd_resource type="Resource" load_steps=5 format=2]
+[gd_resource type="Resource" load_steps=5 format=3 uid="uid://elox52am4f2y"]
 
-[ext_resource path="res://npc_model.gd" type="Script" id=1]
-[ext_resource path="res://Assets/Player/Woman_1_Spritesheet.png" type="Texture" id=2]
-[ext_resource path="res://text_model.gd" type="Script" id=3]
+[ext_resource type="Script" path="res://scripts/npc_model.gd" id="1"]
+[ext_resource type="Texture2D" uid="uid://bf8p5ag8nrgcw" path="res://Assets/Player/Woman_1_Spritesheet.png" id="2"]
+[ext_resource type="Script" path="res://scripts/text_model.gd" id="3"]
 
-[sub_resource type="Resource" id=2]
-script = ExtResource( 3 )
+[sub_resource type="Resource" id="2"]
+script = ExtResource("3")
 text = "Hmm...
 Is that right..."
 
 [resource]
-script = ExtResource( 1 )
+script = ExtResource("1")
 id = "WOMAN_1"
 name = ""
 movement_type = "WANDER AROUND"
-disable_collision = false
-pokemon = [  ]
-items = [  ]
+pokemon = []
+items = []
 is_player = false
-world_encounter = SubResource( 2 )
-beat_flag_mutations = [  ]
-loose_flag_mutations = [  ]
-world_graphic = ExtResource( 2 )
+world_encounter = SubResource("2")
+beat_flag_mutations = []
+loose_flag_mutations = []
+world_graphic = ExtResource("2")

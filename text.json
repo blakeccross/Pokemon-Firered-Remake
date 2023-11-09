@@ -1,9 +1,9 @@
 {
   "PalletTown_Text_OakDontGoOut": ["OAK: Hey! Wait!\nDon't go out!"],
   "PalletTown_Text_OakGrassUnsafeNeedMon": [
-    "OAK: It's unsafe!\nWild POKéMON live in tall grass!",
-    "You need your own POKéMON for\n your protection.",
-    "I know!\nHere, come with me!"
+	"OAK: It's unsafe!\nWild POKéMON live in tall grass!",
+	"You need your own POKéMON for\n your protection.",
+	"I know!\nHere, come with me!"
   ],
   "PalletTown_EventScript_SignLady": ["Hmm…\nIs that right"]
 }

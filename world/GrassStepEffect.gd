@@ -1,4 +1,4 @@
-extends AnimatedSprite
+extends AnimatedSprite2D
 
 
 # Declare member variables here. Examples:
@@ -9,7 +9,7 @@ extends AnimatedSprite
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	frame = 0
-	playing = true
+	play()
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

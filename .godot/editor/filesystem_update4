@@ -1,0 +1,19 @@
+res://SceneManager.tscn
+res://NPC/red/red.tres
+res://NPC/RIVAL.tres
+res://NPC/FAT MAN.tres
+res://NPC/Prof_Oak.tres
+res://NPC/WOMAN_1.tres
+res://world/Player.tscn
+res://world/World.tscn
+res://world/Tween.gd
+res://NPC/trainer_graphic.gd
+res://world/Wild_Pokemon.gd
+res://moves/move_graphic.gd
+res://pokemon/battle_graphic.gd
+res://Battle/menu.gd
+res://world/Dialogue.tscn
+res://Battle/wild_battle.gd
+res://NPC/red/player_graphic.gd
+res://Battle/Battle_Scene.gd
+res://npc_model.gd

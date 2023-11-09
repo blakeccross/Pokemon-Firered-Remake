@@ -1,4 +1,4 @@
-extends AnimatedSprite
+extends AnimatedSprite2D
 
 
 # Declare member variables here. Examples:
@@ -9,7 +9,7 @@ extends AnimatedSprite
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	frame = 0
-	playing = true
+	play()
 
 
 func _on_LandingDustEffect_animation_finished():

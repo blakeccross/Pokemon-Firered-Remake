@@ -1,16 +1,14 @@
 extends Node2D
 
-var tween_:TweenEx
-var tween__:Tween
+var tween_
+var tween__
 
-onready var front_position_:Vector2 = $front.position
-onready var back_position_:Vector2 = $back.position
+@onready var front_position_:Vector2 = $front.position
+@onready var back_position_:Vector2 = $back.position
 
 func _ready()-> void:
-	tween_ = TweenEx.new()
-	tween__ = Tween.new()
-	add_child(tween_)
-	add_child(tween__)
+	tween_ = create_tween()
+	tween__ = create_tween()
 	
 	tween__.repeat = true
 	#$front.rotation_degrees = 5
@@ -18,7 +16,7 @@ func _ready()-> void:
 	#tween__.interpolate_property($front, "rotation_degrees", -5, 5, 1.0, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT, 1.0)
 	tween__.start()
 	
-func begin(tween:TweenEx) -> void:
+func begin(tween) -> void:
 	$front.position.x = - 40
 	tween.interpolate_property($front, "position:x", -40, front_position_.x, 1.0)
 	$back.position.x = 180
@@ -52,7 +50,7 @@ func learn():
 	$learn.play()
 
 func enter():
-	$enter.pitch_scale = 1.0 + rand_range(-0.3, 0.9)
+	$enter.pitch_scale = 1.0 + randf_range(-0.3, 0.9)
 	$enter.play()
 	tween_.interpolate_property(self, "scale", Vector2(), scale, 0.5, Tween.TRANS_QUAD)
 	scale = Vector2()

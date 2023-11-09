@@ -1,0 +1,15 @@
+[remap]
+
+importer="dialogue_manager_compiler_10"
+type="Resource"
+uid="uid://dln3bufv4x7wo"
+path="res://.godot/imported/oak_enter.dialogue-12f68c84144d1968a15be00643de4582.tres"
+
+[deps]
+
+source_file="res://oak_enter.dialogue"
+dest_files=["res://.godot/imported/oak_enter.dialogue-12f68c84144d1968a15be00643de4582.tres"]
+
+[params]
+
+defaults=true

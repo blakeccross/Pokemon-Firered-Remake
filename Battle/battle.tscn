@@ -1,234 +1,544 @@
-[gd_scene load_steps=18 format=2]
+[gd_scene load_steps=22 format=3 uid="uid://nholdbyc18q0"]
 
-[ext_resource path="res://NPC/blue/blue.tres" type="Resource" id=1]
-[ext_resource path="res://NPC/RIVAL.tres" type="Resource" id=2]
-[ext_resource path="res://world/pokemon_info_player.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Battle/pokemon_list.tscn" type="PackedScene" id=4]
-[ext_resource path="res://world/Tween.gd" type="Script" id=5]
-[ext_resource path="res://Battle/menu.gd" type="Script" id=6]
-[ext_resource path="res://Battle/info.tscn" type="PackedScene" id=7]
-[ext_resource path="res://world/menu_button.tscn" type="PackedScene" id=8]
-[ext_resource path="res://Battle/Battle_Scene.gd" type="Script" id=9]
-[ext_resource path="res://Battle/graphic.gd" type="Script" id=10]
-[ext_resource path="res://Battle/info_box.gd" type="Script" id=11]
-[ext_resource path="res://Assets/UI/menu_box_1.png" type="Texture" id=12]
-[ext_resource path="res://Assets/battle/battle_BG_1.png" type="Texture" id=13]
-[ext_resource path="res://Assets/battle/battle_platform_1.png" type="Texture" id=14]
-[ext_resource path="res://world/pokemon_info_enemy.tscn" type="PackedScene" id=15]
+[ext_resource type="Texture2D" uid="uid://j2mlqg7lipf1" path="res://Assets/battle/battle_BG_1.png" id="1_4ascp"]
+[ext_resource type="Script" path="res://Battle/Battle.gd" id="1_4nj7j"]
+[ext_resource type="Theme" uid="uid://81kfs3qkaw8o" path="res://pokemon_theme.tres" id="2_mlk62"]
+[ext_resource type="Texture2D" uid="uid://dkmvtedecg278" path="res://Assets/Pokemon/Bulbasaur.png" id="2_sdolv"]
+[ext_resource type="Resource" uid="uid://vf0c56ppoqev" path="res://pokemon/charmander/charmander.tres" id="2_y0nm6"]
+[ext_resource type="Resource" uid="uid://dqh2ey5g6dsds" path="res://pokemon/squirle/squirtle.tres" id="3_ophel"]
+[ext_resource type="Texture2D" uid="uid://b0dd8vjj6wuqy" path="res://Assets/battle/enemy_status.png" id="6_i6e34"]
+[ext_resource type="Script" path="res://Battle/fight_button.gd" id="6_sajq7"]
+[ext_resource type="Texture2D" uid="uid://bj4qwbdvn52ro" path="res://Assets/Pokemon/Charmander.png" id="7_7a47d"]
+[ext_resource type="Texture2D" uid="uid://dxsx0luifi4jd" path="res://Assets/battle/player_status.png" id="8_rfknw"]
+[ext_resource type="Texture2D" uid="uid://dsc08oyb4urjc" path="res://Assets/UI/battle_info_box.png" id="10_qhrba"]
 
-[sub_resource type="Theme" id=1]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ttxny"]
+bg_color = Color(0.333333, 0.403922, 0.34902, 1)
 
-[sub_resource type="StyleBoxEmpty" id=2]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pdaco"]
+bg_color = Color(0.584314, 0.960784, 0.686275, 1)
 
-[node name="battle" type="Control"]
-margin_right = 240.0
-margin_bottom = 160.0
-script = ExtResource( 9 )
-player = ExtResource( 1 )
-enemy = ExtResource( 2 )
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mgr1k"]
+content_margin_left = 10.0
+content_margin_top = 10.0
+content_margin_right = 10.0
+content_margin_bottom = 10.0
 
-[node name="BattleBg1" type="Sprite" parent="."]
-position = Vector2( 128, 80 )
-scale = Vector2( 1.42857, 1.42857 )
-texture = ExtResource( 13 )
+[sub_resource type="Animation" id="Animation_khjn6"]
+resource_name = "BATTLE_START"
+length = 4.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerContainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(2000, 488), Vector2(0, 488)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EnemyContainer/HBoxContainer/Control2/Node2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(2.5, 3.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-750, 2.08165e-12), Vector2(2.08165e-12, 2.08165e-12)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("EnemyContainer:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-2000, 2.08165e-12), Vector2(2.08165e-12, 2.08165e-12)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Transition/topBarn:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1920, 540), Vector2(1920, 2.08165e-12)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Transition/bottomBarn:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 2.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(2.08165e-12, 540), Vector2(2.08165e-12, 1080)]
+}
 
-[node name="tween" type="Tween" parent="."]
-script = ExtResource( 5 )
+[sub_resource type="Animation" id="Animation_dinrr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PlayerContainer:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 488)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("EnemyContainer/HBoxContainer/Control2/Node2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-500, 2.08165e-12)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("EnemyContainer:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2.08165e-12, 2.08165e-12)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Transition/topBarn:size")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1920, 540)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Transition/bottomBarn:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2.08165e-12, 540)]
+}
 
-[node name="enemy" type="Position2D" parent="."]
-position = Vector2( 176, 32 )
-script = ExtResource( 10 )
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_bfuy6"]
+_data = {
+"BATTLE_START": SubResource("Animation_khjn6"),
+"RESET": SubResource("Animation_dinrr")
+}
 
-[node name="BattlePlatform1" type="Sprite" parent="enemy"]
-position = Vector2( 0, 40 )
-texture = ExtResource( 14 )
+[sub_resource type="Animation" id="Animation_mg8x8"]
+length = 0.001
 
-[node name="pokemon" type="Position2D" parent="enemy"]
-position = Vector2( -3, 19 )
+[sub_resource type="Animation" id="Animation_6qsrb"]
+resource_name = "battle_in"
+length = 2.4
 
-[node name="trainer" parent="enemy" instance_placeholder="res://NPC/blue/blue_trainer_graphic.tscn"]
+[sub_resource type="Animation" id="Animation_jcyne"]
+resource_name = "fade"
+length = 2.0
 
-[node name="stats" parent="enemy" instance=ExtResource( 15 )]
-visible = false
-position = Vector2( -160, -16 )
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gxm6p"]
+_data = {
+"RESET": SubResource("Animation_mg8x8"),
+"battle": SubResource("Animation_6qsrb"),
+"fade": SubResource("Animation_jcyne")
+}
 
-[node name="player" type="Position2D" parent="."]
-position = Vector2( 56, 80 )
-script = ExtResource( 10 )
-
-[node name="BattlePlatform1" type="Sprite" parent="player"]
-position = Vector2( 8, 40 )
-texture = ExtResource( 14 )
-
-[node name="pokemon" type="Position2D" parent="player"]
-scale = Vector2( 3, 3 )
-
-[node name="trainer" parent="player" instance_placeholder="res://NPC/blue/blue_trainer_graphic.tscn"]
-scale = Vector2( 1.2, 1.2 )
-
-[node name="stats" parent="player" instance=ExtResource( 3 )]
-visible = false
-position = Vector2( 70, -8.48 )
-
-[node name="info" parent="." instance=ExtResource( 7 )]
-margin_top = 112.0
-margin_right = 240.0
-script = ExtResource( 11 )
-
-[node name="action_menu" type="PanelContainer" parent="."]
-visible = false
-margin_left = 128.0
-margin_top = 112.0
-margin_right = 240.0
-margin_bottom = 160.0
-theme = SubResource( 1 )
-custom_styles/panel = SubResource( 2 )
-script = ExtResource( 6 )
-menu_items = [ NodePath("m/m/rows/col_1/fight"), NodePath("m/m/rows/col_1/item"), NodePath("m/m/rows/col_2/pokemon"), NodePath("m/m/rows/col_2/run") ]
-
-[node name="m" type="NinePatchRect" parent="action_menu"]
-margin_right = 112.0
-margin_bottom = 48.0
-texture = ExtResource( 12 )
-patch_margin_left = 8
-patch_margin_top = 8
-patch_margin_right = 8
-patch_margin_bottom = 8
-
-[node name="m" type="MarginContainer" parent="action_menu/m"]
+[node name="Battle" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_right = -1.28746e-05
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_4nj7j")
+enemy_pokemon = Array[Resource("res://pokemon/pokemon_model.gd")]([ExtResource("2_y0nm6")])
+player_pokemon = Array[Resource("res://pokemon/pokemon_model.gd")]([ExtResource("3_ophel")])
+metadata/_edit_use_anchors_ = true
 
-[node name="rows" type="HBoxContainer" parent="action_menu/m/m"]
-margin_right = 112.0
-margin_bottom = 48.0
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_4ascp")
 
-[node name="col_1" type="VBoxContainer" parent="action_menu/m/m/rows"]
-margin_right = 45.0
-margin_bottom = 48.0
+[node name="EnemyContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_right = 11520.0
+offset_bottom = 472.0
+grow_horizontal = 2
 
-[node name="fight" parent="action_menu/m/m/rows/col_1" instance=ExtResource( 8 )]
-margin_right = 45.0
-margin_bottom = 10.0
-capitalize = true
-selected = true
+[node name="HBoxContainer" type="HBoxContainer" parent="EnemyContainer"]
+layout_mode = 2
+offset_right = 1920.0
+offset_bottom = 472.0
+size_flags_vertical = 3
 
-[node name="item" parent="action_menu/m/m/rows/col_1" instance=ExtResource( 8 )]
-margin_top = 14.0
-margin_right = 45.0
-capitalize = true
-text = "item"
+[node name="Control2" type="Control" parent="EnemyContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="col_2" type="VBoxContainer" parent="action_menu/m/m/rows"]
-margin_left = 49.0
-margin_right = 108.0
-margin_bottom = 48.0
+[node name="Node2D" type="Node2D" parent="EnemyContainer/HBoxContainer/Control2"]
+position = Vector2(-500, 2.08165e-12)
 
-[node name="pokemon" parent="action_menu/m/m/rows/col_2" instance=ExtResource( 8 )]
-margin_right = 59.0
-margin_bottom = 10.0
-capitalize = true
+[node name="enemyHealth" type="ProgressBar" parent="EnemyContainer/HBoxContainer/Control2/Node2D"]
+offset_left = 318.0
+offset_top = 216.0
+offset_right = 652.0
+offset_bottom = 248.0
+theme = ExtResource("2_mlk62")
+theme_override_styles/background = SubResource("StyleBoxFlat_ttxny")
+theme_override_styles/fill = SubResource("StyleBoxFlat_pdaco")
+value = 50.0
+show_percentage = false
+
+[node name="enemy_status" type="Sprite2D" parent="EnemyContainer/HBoxContainer/Control2/Node2D"]
+position = Vector2(59, 105)
+scale = Vector2(6.81034, 6.81034)
+texture = ExtResource("6_i6e34")
+centered = false
+
+[node name="enemy_name" type="Label" parent="EnemyContainer/HBoxContainer/Control2/Node2D"]
+offset_left = 88.0
+offset_top = 135.0
+offset_right = 536.0
+offset_bottom = 207.0
+theme = ExtResource("2_mlk62")
+theme_override_colors/font_color = Color(0.25098, 0.25098, 0.25098, 1)
+theme_override_colors/font_shadow_color = Color(0.843137, 0.815686, 0.701961, 1)
+theme_override_constants/shadow_offset_x = 5
+theme_override_constants/shadow_offset_y = 4
+theme_override_font_sizes/font_size = 80
+text = "ENEMY"
+
+[node name="Control" type="Control" parent="EnemyContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="EnemyPokemonSprite" type="Sprite2D" parent="EnemyContainer/HBoxContainer/Control"]
+position = Vector2(502, 264)
+scale = Vector2(8.07143, 8.07143)
+texture = ExtResource("7_7a47d")
+region_enabled = true
+region_rect = Rect2(0, 40, 64, 56)
+
+[node name="PlayerContainer" type="Control" parent="."]
+clip_contents = true
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -592.0
+offset_right = 1920.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PlayerContainer"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="PlayerContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="PlayerPokemonSprite" type="Sprite2D" parent="PlayerContainer/HBoxContainer/Control"]
+position = Vector2(463, 175)
+scale = Vector2(7.48214, 7.48214)
+texture = ExtResource("2_sdolv")
+region_enabled = true
+region_rect = Rect2(0, 104, 64, 48)
+
+[node name="Container" type="Control" parent="PlayerContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="enemy_status" type="Sprite2D" parent="PlayerContainer/HBoxContainer/Container"]
+position = Vector2(358, 119)
+scale = Vector2(6.81034, 6.81034)
+texture = ExtResource("8_rfknw")
+
+[node name="playerHealth" type="ProgressBar" parent="PlayerContainer/HBoxContainer/Container/enemy_status"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = -4.0
+offset_top = -2.0
+offset_right = -60.0
+offset_bottom = 2.0
+grow_horizontal = 2
+theme = ExtResource("2_mlk62")
+theme_override_styles/background = SubResource("StyleBoxFlat_ttxny")
+theme_override_styles/fill = SubResource("StyleBoxFlat_pdaco")
+value = 0.5
+show_percentage = false
+
+[node name="Dialogue" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -284.0
+offset_right = -1536.0
+offset_bottom = -227.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(5, 5)
+texture = ExtResource("10_qhrba")
+region_rect = Rect2(0, 0, 240, 48)
+patch_margin_left = 16
+patch_margin_top = 16
+patch_margin_right = 16
+patch_margin_bottom = 16
+
+[node name="Dialogue" type="MarginContainer" parent="Dialogue"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -57.0
+offset_right = -1.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/margin_left = 11
+theme_override_constants/margin_top = 9
+theme_override_constants/margin_right = 11
+theme_override_constants/margin_bottom = 9
+
+[node name="Label" type="Label" parent="Dialogue/Dialogue"]
+layout_mode = 2
+size_flags_vertical = 1
+theme = ExtResource("2_mlk62")
+theme_override_font_sizes/font_size = 24
+text = "asdasd"
+
+[node name="Actions" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -272.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mgr1k")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Actions"]
+layout_mode = 2
+
+[node name="Container" type="MarginContainer" parent="Actions/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/margin_left = 75
+
+[node name="ActionMenuText" type="Label" parent="Actions/HBoxContainer/Container"]
+layout_mode = 2
+theme = ExtResource("2_mlk62")
+theme_override_font_sizes/font_size = 80
+text = "What will
+pokemon do?"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Actions/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 10
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Actions/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 25)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Button" type="Button" parent="Actions/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_mlk62")
+theme_override_font_sizes/font_size = 80
+text = "Fight"
+
+[node name="Bag" type="Button" parent="Actions/HBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_mlk62")
+theme_override_font_sizes/font_size = 80
+text = "Bag
+"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Actions/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 25)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="Pokemon" type="Button" parent="Actions/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_mlk62")
+theme_override_font_sizes/font_size = 80
 text = "Pokemon"
 
-[node name="run" parent="action_menu/m/m/rows/col_2" instance=ExtResource( 8 )]
-margin_top = 14.0
-margin_right = 59.0
-capitalize = true
-text = "run"
+[node name="Run" type="Button" parent="Actions/HBoxContainer/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_mlk62")
+theme_override_font_sizes/font_size = 80
+text = "Run"
 
-[node name="fight_menu" type="PanelContainer" parent="."]
+[node name="FightMenu" type="PanelContainer" parent="."]
 visible = false
-margin_left = 128.0
-margin_top = 104.0
-margin_right = 240.0
-margin_bottom = 160.0
-theme = SubResource( 1 )
-custom_styles/panel = SubResource( 2 )
-script = ExtResource( 6 )
-
-[node name="m" type="NinePatchRect" parent="fight_menu"]
-margin_right = 112.0
-margin_bottom = 56.0
-texture = ExtResource( 12 )
-patch_margin_left = 8
-patch_margin_top = 8
-patch_margin_right = 8
-patch_margin_bottom = 8
-
-[node name="m" type="MarginContainer" parent="fight_menu/m"]
+layout_mode = 1
+anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -248.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mgr1k")
 
-[node name="col_1" type="VBoxContainer" parent="fight_menu/m/m"]
-margin_right = 112.0
-margin_bottom = 56.0
+[node name="VBoxContainer" type="VBoxContainer" parent="FightMenu"]
+layout_mode = 2
+theme_override_constants/separation = 10
 
-[node name="yes_no_menu" type="PanelContainer" parent="."]
+[node name="HBoxContainer" type="HBoxContainer" parent="FightMenu/VBoxContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 25)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Move1" type="Button" parent="FightMenu/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_mlk62")
+theme_type_variation = &"Button"
+theme_override_font_sizes/font_size = 80
+disabled = true
+text = "-"
+script = ExtResource("6_sajq7")
+
+[node name="Move2" type="Button" parent="FightMenu/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_mlk62")
+theme_override_font_sizes/font_size = 80
+disabled = true
+text = "-
+"
+script = ExtResource("6_sajq7")
+fightButtonIndex = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="FightMenu/VBoxContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 25)
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="Move3" type="Button" parent="FightMenu/VBoxContainer/HBoxContainer2"]
+layout_direction = 1
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_mlk62")
+theme_override_font_sizes/font_size = 80
+disabled = true
+text = "-"
+script = ExtResource("6_sajq7")
+fightButtonIndex = 2
+
+[node name="Move4" type="Button" parent="FightMenu/VBoxContainer/HBoxContainer2"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme = ExtResource("2_mlk62")
+theme_override_font_sizes/font_size = 80
+disabled = true
+text = "-"
+script = ExtResource("6_sajq7")
+fightButtonIndex = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_bfuy6")
+}
+
+[node name="Transition" type="CanvasLayer" parent="."]
 visible = false
-margin_top = 64.0
-margin_right = 88.0
-margin_bottom = 104.0
-theme = SubResource( 1 )
-custom_styles/panel = SubResource( 2 )
-script = ExtResource( 6 )
 
-[node name="m" type="NinePatchRect" parent="yes_no_menu"]
-margin_right = 88.0
-margin_bottom = 40.0
-texture = ExtResource( 12 )
-patch_margin_left = 8
-patch_margin_top = 8
-patch_margin_right = 8
-patch_margin_bottom = 8
+[node name="topBarn" type="ColorRect" parent="Transition"]
+anchors_preset = 10
+anchor_right = 1.0
+offset_bottom = 540.0
+grow_horizontal = 2
+color = Color(0, 0, 0, 1)
 
-[node name="m" type="MarginContainer" parent="yes_no_menu/m"]
+[node name="bottomBarn" type="ColorRect" parent="Transition"]
+anchors_preset = 12
+anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -540.0
+offset_right = 9600.0
+offset_bottom = 4.00977
+grow_horizontal = 2
+grow_vertical = 0
+color = Color(0, 0, 0, 1)
 
-[node name="col_1" type="VBoxContainer" parent="yes_no_menu/m/m"]
-margin_right = 88.0
-margin_bottom = 40.0
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Transition"]
+libraries = {
+"": SubResource("AnimationLibrary_gxm6p")
+}
 
-[node name="yes" parent="yes_no_menu/m/m/col_1" instance=ExtResource( 8 )]
-margin_right = 88.0
-margin_bottom = 10.0
-capitalize = true
-text = "yes"
-selected = true
-
-[node name="no" parent="yes_no_menu/m/m/col_1" instance=ExtResource( 8 )]
-margin_top = 14.0
-margin_right = 88.0
-capitalize = true
-text = "no"
-selected = true
-
-[node name="items" type="PanelContainer" parent="."]
-visible = false
-margin_left = 88.0
-margin_top = 16.0
-margin_right = 240.0
-margin_bottom = 104.0
-theme = SubResource( 1 )
-custom_styles/panel = SubResource( 2 )
-script = ExtResource( 6 )
-
-[node name="m" type="NinePatchRect" parent="items"]
-margin_right = 152.0
-margin_bottom = 88.0
-texture = ExtResource( 12 )
-patch_margin_left = 8
-patch_margin_top = 8
-patch_margin_right = 8
-patch_margin_bottom = 8
-
-[node name="m" type="MarginContainer" parent="items/m"]
-anchor_right = 1.0
-anchor_bottom = 1.0
-
-[node name="col_1" type="VBoxContainer" parent="items/m/m"]
-margin_right = 152.0
-margin_bottom = 88.0
-
-[node name="pokemon_list" parent="." instance=ExtResource( 4 )]
-visible = false
+[connection signal="pressed" from="Actions/HBoxContainer/VBoxContainer/HBoxContainer/Button" to="." method="_fight_button_pressed"]
+[connection signal="pressed" from="Actions/HBoxContainer/VBoxContainer/HBoxContainer2/Run" to="." method="_on_run_pressed"]
+[connection signal="fight_action_pressed" from="FightMenu/VBoxContainer/HBoxContainer/Move1" to="." method="_on_fight_action_pressed"]
+[connection signal="pressed" from="FightMenu/VBoxContainer/HBoxContainer/Move1" to="FightMenu/VBoxContainer/HBoxContainer/Move1" method="_on_pressed"]
+[connection signal="fight_action_pressed" from="FightMenu/VBoxContainer/HBoxContainer/Move2" to="." method="_on_fight_action_pressed"]
+[connection signal="pressed" from="FightMenu/VBoxContainer/HBoxContainer/Move2" to="FightMenu/VBoxContainer/HBoxContainer/Move2" method="_on_pressed"]
+[connection signal="fight_action_pressed" from="FightMenu/VBoxContainer/HBoxContainer2/Move3" to="." method="_on_fight_action_pressed"]
+[connection signal="pressed" from="FightMenu/VBoxContainer/HBoxContainer2/Move3" to="FightMenu/VBoxContainer/HBoxContainer2/Move3" method="_on_pressed"]
+[connection signal="fight_action_pressed" from="FightMenu/VBoxContainer/HBoxContainer2/Move4" to="." method="_on_fight_action_pressed"]
+[connection signal="pressed" from="FightMenu/VBoxContainer/HBoxContainer2/Move4" to="FightMenu/VBoxContainer/HBoxContainer2/Move4" method="_on_pressed"]

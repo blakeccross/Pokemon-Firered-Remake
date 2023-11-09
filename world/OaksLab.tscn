@@ -1,186 +1,89 @@
-[gd_scene load_steps=25 format=2]
+[gd_scene load_steps=12 format=3 uid="uid://dyj2xjbkvwuho"]
 
-[ext_resource path="res://Assets/Buildings/pallet town/oaks_lab_interior.png" type="Texture" id=1]
-[ext_resource path="res://world/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://world/Door.tscn" type="PackedScene" id=3]
-[ext_resource path="res://Assets/Buildings/pallet town/mat.png" type="Texture" id=4]
-[ext_resource path="res://Assets/Buildings/pallet town/oak_lab_machine.png" type="Texture" id=5]
-[ext_resource path="res://Assets/Buildings/pallet town/plant.png" type="Texture" id=6]
-[ext_resource path="res://Assets/Buildings/pallet town/oaks_lab_interior2.png" type="Texture" id=7]
-[ext_resource path="res://Assets/Audio/Music/Pokemon FireRed & LeafGreen OST - Professor Oak's Laboratory.mp3" type="AudioStream" id=8]
-[ext_resource path="res://Assets/Pokeball/pokeball.png" type="Texture" id=9]
-[ext_resource path="res://world/starter_pokemon.gd" type="Script" id=10]
-[ext_resource path="res://pokemon/bulbasaur/bulbasaur.tres" type="Resource" id=11]
-[ext_resource path="res://NPC/player.tres" type="Resource" id=12]
-[ext_resource path="res://pokemon/squirle/squirtle.tres" type="Resource" id=13]
-[ext_resource path="res://NPC/WOMAN_1.tscn" type="PackedScene" id=14]
-[ext_resource path="res://NPC/Prof_Oak.tres" type="Resource" id=15]
-[ext_resource path="res://world/OaksLab_starter_pokemon_custscene.gd" type="Script" id=16]
-[ext_resource path="res://NPC/RIVAL.tres" type="Resource" id=17]
-[ext_resource path="res://world/RivalBattle_Center.gd" type="Script" id=18]
+[ext_resource type="Texture2D" uid="uid://ccq5qj7rih5q1" path="res://Assets/Buildings/pallet town 2/oaks_lab_interior.png" id="1"]
+[ext_resource type="PackedScene" uid="uid://b47hry70n4bv8" path="res://world/Player.tscn" id="2"]
+[ext_resource type="PackedScene" uid="uid://8j6by2jqmtfu" path="res://world/Door.tscn" id="3"]
+[ext_resource type="Texture2D" uid="uid://5xvalwtp8j1d" path="res://Assets/Buildings/pallet town 2/mat.png" id="4"]
+[ext_resource type="Texture2D" uid="uid://d3q5dhxnhhno7" path="res://Assets/Buildings/pallet town 2/oak_lab_machine.png" id="5"]
+[ext_resource type="Texture2D" uid="uid://bm21h66uj78qg" path="res://Assets/Buildings/pallet town 2/plant.png" id="6"]
+[ext_resource type="Texture2D" uid="uid://dcgarf4ki2v1k" path="res://Assets/Buildings/pallet town 2/oaks_lab_interior2.png" id="7"]
 
-[sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 8, 104 )
+[sub_resource type="RectangleShape2D" id="1"]
+size = Vector2(16, 208)
 
-[sub_resource type="RectangleShape2D" id=2]
-extents = Vector2( 104, 8 )
+[sub_resource type="RectangleShape2D" id="2"]
+size = Vector2(208, 16)
 
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 48, 8 )
+[sub_resource type="RectangleShape2D" id="3"]
+size = Vector2(96, 16)
 
-[sub_resource type="RectangleShape2D" id=4]
-extents = Vector2( 48, 8 )
-
-[sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 8, 8 )
-
-[sub_resource type="RectangleShape2D" id=6]
-extents = Vector2( 5.5, 5.75 )
+[sub_resource type="RectangleShape2D" id="4"]
+size = Vector2(96, 16)
 
 [node name="OaksLab" type="Node2D"]
-script = ExtResource( 16 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_left = -208.0
-margin_top = -208.0
-margin_right = 392.0
-margin_bottom = 392.0
-color = Color( 0, 0, 0, 1 )
+color = Color(0, 0, 0, 1)
 
 [node name="TextureRect" type="TextureRect" parent="."]
-margin_right = 40.0
-margin_bottom = 40.0
-texture = ExtResource( 1 )
-__meta__ = {
-"_edit_use_anchors_": false
-}
+texture = ExtResource("1")
 
 [node name="Mat" type="TextureRect" parent="."]
-margin_left = 88.0
-margin_top = 196.0
-margin_right = 120.0
-margin_bottom = 212.0
-texture = ExtResource( 4 )
+texture = ExtResource("4")
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 2
 collision_mask = 0
 
-[node name="OaksLabInterior2" type="Sprite" parent="StaticBody2D"]
-position = Vector2( 104, 106 )
-texture = ExtResource( 7 )
+[node name="OaksLabInterior2" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(104, 106)
+texture = ExtResource("7")
 
-[node name="Plant" type="Sprite" parent="StaticBody2D"]
-position = Vector2( 8, 192 )
-texture = ExtResource( 6 )
+[node name="Plant" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(8, 192)
+texture = ExtResource("6")
 
-[node name="Plant2" type="Sprite" parent="StaticBody2D"]
-position = Vector2( 200, 192 )
-texture = ExtResource( 6 )
+[node name="Plant2" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(200, 192)
+texture = ExtResource("6")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( -8, 104 )
-shape = SubResource( 1 )
+position = Vector2(-8, 104)
+shape = SubResource("1")
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 216, 104 )
-shape = SubResource( 1 )
+position = Vector2(216, 104)
+shape = SubResource("1")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 104, 24 )
-shape = SubResource( 2 )
+position = Vector2(104, 24)
+shape = SubResource("2")
 
 [node name="CollisionShape2D5" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 160, 216 )
-shape = SubResource( 3 )
+position = Vector2(160, 216)
+shape = SubResource("3")
 
 [node name="CollisionShape2D6" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2( 48, 216 )
-shape = SubResource( 4 )
+position = Vector2(48, 216)
+shape = SubResource("4")
 
-[node name="OakLabMachine" type="Sprite" parent="StaticBody2D"]
-position = Vector2( 32, 72 )
-texture = ExtResource( 5 )
+[node name="OakLabMachine" type="Sprite2D" parent="StaticBody2D"]
+position = Vector2(32, 72)
+texture = ExtResource("5")
 
-[node name="YSort" type="YSort" parent="."]
+[node name="YSort" type="Node2D" parent="."]
 
-[node name="Prof_Oak" parent="YSort" instance=ExtResource( 14 )]
-position = Vector2( 96, 48 )
-collision_layer = 0
-collision_mask = 0
-NPC = ExtResource( 15 )
+[node name="Player" parent="YSort" instance=ExtResource("2")]
+position = Vector2(96, 192)
 
-[node name="Rival" parent="YSort" instance=ExtResource( 14 )]
-position = Vector2( 80, 64 )
-NPC = ExtResource( 17 )
-
-[node name="Player" parent="YSort" instance=ExtResource( 2 )]
-position = Vector2( 96, 192 )
-trainer = ExtResource( 12 )
-
-[node name="Pokemon" type="Node2D" parent="YSort"]
-
-[node name="bulbasaur" type="Area2D" parent="YSort/Pokemon"]
-position = Vector2( 136, 74 )
-collision_layer = 16
-collision_mask = 0
-script = ExtResource( 10 )
-pokemon = ExtResource( 11 )
-
-[node name="Sprite" type="Sprite" parent="YSort/Pokemon/bulbasaur"]
-texture = ExtResource( 9 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Pokemon/bulbasaur"]
-position = Vector2( 0, -2 )
-shape = SubResource( 5 )
-
-[node name="squirtle" type="Area2D" parent="YSort/Pokemon"]
-position = Vector2( 152, 74 )
-collision_layer = 16
-script = ExtResource( 10 )
-starter = 1
-pokemon = ExtResource( 13 )
-
-[node name="Sprite" type="Sprite" parent="YSort/Pokemon/squirtle"]
-texture = ExtResource( 9 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Pokemon/squirtle"]
-position = Vector2( 0, -2 )
-shape = SubResource( 5 )
-
-[node name="charmander" type="Area2D" parent="YSort/Pokemon"]
-position = Vector2( 168, 72 )
-collision_layer = 16
-script = ExtResource( 10 )
-starter = 2
-
-[node name="Sprite" type="Sprite" parent="YSort/Pokemon/charmander"]
-position = Vector2( 0, 2 )
-texture = ExtResource( 9 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="YSort/Pokemon/charmander"]
-shape = SubResource( 5 )
-
-[node name="Door" parent="." instance=ExtResource( 3 )]
-modulate = Color( 0.12549, 0.313726, 0.85098, 1 )
-position = Vector2( 96, 208 )
+[node name="Door" parent="." instance=ExtResource("3")]
+modulate = Color(0.12549, 0.313726, 0.85098, 1)
+position = Vector2(96, 208)
 next_scene_path = "res://world/Palette Town.tscn"
 is_invisible = true
-spawn_location = Vector2( 128, 176 )
-spawn_direction = Vector2( 0, 1 )
+spawn_location = Vector2(128, 176)
+spawn_direction = Vector2(0, 1)
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 8 )
 volume_db = -6.0
 autoplay = true
-
-[node name="RivalBattle_Center" type="Area2D" parent="."]
-position = Vector2( 104, 136 )
-collision_layer = 0
-script = ExtResource( 18 )
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RivalBattle_Center"]
-shape = SubResource( 6 )
-
-[connection signal="body_entered" from="YSort/Pokemon/bulbasaur" to="YSort/Pokemon/bulbasaur" method="_on_player_entered"]
-[connection signal="body_entered" from="RivalBattle_Center" to="RivalBattle_Center" method="_on_DialogueTriggger_body_entered"]

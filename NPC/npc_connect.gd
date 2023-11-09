@@ -3,7 +3,7 @@ extends Area2D
 signal encounter
 signal beat
 
-export(Resource) var trainer setget set_trainer
+@export var trainer setget set_trainer
 
 func _ready() -> void:
 	print(trainer.world_encounter.text)

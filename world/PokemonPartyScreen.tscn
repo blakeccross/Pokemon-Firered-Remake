@@ -1,9 +1,10 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Assets/UI/pkmnfl.ttf" type="DynamicFontData" id=1]
 [ext_resource path="res://Assets/Pokemon/Squirtle.png" type="Texture" id=2]
 [ext_resource path="res://Assets/UI/Pokemon Party/party_background.png" type="Texture" id=3]
-[ext_resource path="res://FirstPokemonSlot.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/UI/Pokemon Party/main_pokemon_background.png" type="Texture" id=4]
+[ext_resource path="res://Assets/Pokemon/Charmander.png" type="Texture" id=5]
 [ext_resource path="res://Assets/UI/Pokemon Party/gender_icons.png" type="Texture" id=6]
 [ext_resource path="res://Assets/UI/Pokemon Party/healthbar.png" type="Texture" id=7]
 [ext_resource path="res://Assets/UI/Pokemon Party/standby_pokemon_background.png" type="Texture" id=8]
@@ -13,9 +14,8 @@
 [ext_resource path="res://Assets/Pokemon/Onix.png" type="Texture" id=12]
 [ext_resource path="res://Assets/UI/Pokemon Party/exit_background_button.png" type="Texture" id=13]
 [ext_resource path="res://world/PokemonPartyScreen.gd" type="Script" id=14]
-[ext_resource path="res://world/set_pokemon_party.gd" type="Script" id=15]
 
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=1]
 resource_name = "Idle"
 loop = true
 tracks/0/type = "value"
@@ -34,6 +34,22 @@ tracks/0/keys = {
 [sub_resource type="DynamicFont" id=2]
 size = 10
 font_data = ExtResource( 1 )
+
+[sub_resource type="Animation" id=3]
+resource_name = "Idle"
+loop = true
+tracks/0/type = "value"
+tracks/0/path = NodePath("PokemonPartySprite:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0, 0.5 ),
+"transitions": PoolRealArray( 1, 1 ),
+"update": 1,
+"values": [ 0, 1 ]
+}
 
 [sub_resource type="Animation" id=4]
 resource_name = "Idle"
@@ -110,12 +126,77 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="FirstPokemonSlot" parent="." instance=ExtResource( 4 )]
+[node name="FirstPokemonSlot" type="Node2D" parent="."]
+
+[node name="Background" type="Sprite" parent="FirstPokemonSlot"]
+position = Vector2( 44, 47 )
+texture = ExtResource( 4 )
+hframes = 2
+
+[node name="PokemonPartySprite" type="Sprite" parent="FirstPokemonSlot"]
+position = Vector2( 18, 40 )
+texture = ExtResource( 5 )
+hframes = 2
+region_enabled = true
+region_rect = Rect2( 30, 9, 70, 24 )
+
+[node name="PokemonName" type="Sprite" parent="FirstPokemonSlot"]
+position = Vector2( 68, 42 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 0, -1, 73, 10 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="FirstPokemonSlot"]
+autoplay = "Idle"
+anims/Idle = SubResource( 1 )
+
+[node name="LevelLabel" type="Label" parent="FirstPokemonSlot"]
+margin_left = 48.0
+margin_top = 49.0
+margin_right = 88.0
+margin_bottom = 63.0
+custom_fonts/font = SubResource( 2 )
+text = "4"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="HealthLabel" type="Label" parent="FirstPokemonSlot"]
+margin_left = 50.0
+margin_top = 65.0
+margin_right = 90.0
+margin_bottom = 79.0
+custom_fonts/font = SubResource( 2 )
+text = "23"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MaxHealthLabel" type="Label" parent="FirstPokemonSlot"]
+margin_left = 67.0
+margin_top = 65.0
+margin_right = 107.0
+margin_bottom = 79.0
+custom_fonts/font = SubResource( 2 )
+text = "30"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="GenderIcon" type="Sprite" parent="FirstPokemonSlot"]
+position = Vector2( 75, 52 )
+texture = ExtResource( 6 )
+hframes = 2
+
+[node name="HealthBar" type="Sprite" parent="FirstPokemonSlot"]
+position = Vector2( 56, 61 )
+scale = Vector2( 2, 1 )
+texture = ExtResource( 7 )
+region_enabled = true
+region_rect = Rect2( 24, 0, 24, 3 )
 
 [node name="SecondPokemonSlot" type="Node2D" parent="."]
 position = Vector2( 119, -26 )
-script = ExtResource( 15 )
-menu_number = 1
 
 [node name="Background" type="Sprite" parent="SecondPokemonSlot"]
 position = Vector2( 44, 47 )
@@ -186,8 +267,6 @@ region_rect = Rect2( 24, 0, 24, 3 )
 
 [node name="ThirdPokemonSlot" type="Node2D" parent="."]
 position = Vector2( 119, -2 )
-script = ExtResource( 15 )
-menu_number = 2
 
 [node name="Background" type="Sprite" parent="ThirdPokemonSlot"]
 position = Vector2( 44, 47 )
@@ -258,8 +337,6 @@ region_rect = Rect2( 24, 0, 24, 3 )
 
 [node name="FourthPokemonSlot" type="Node2D" parent="."]
 position = Vector2( 119, 22 )
-script = ExtResource( 15 )
-menu_number = 3
 
 [node name="Background" type="Sprite" parent="FourthPokemonSlot"]
 position = Vector2( 44, 47 )
@@ -330,8 +407,6 @@ region_rect = Rect2( 24, 0, 24, 3 )
 
 [node name="FifthPokemonSlot" type="Node2D" parent="."]
 position = Vector2( 119, 46 )
-script = ExtResource( 15 )
-menu_number = 4
 
 [node name="Background" type="Sprite" parent="FifthPokemonSlot"]
 position = Vector2( 44, 47 )
@@ -402,8 +477,6 @@ region_rect = Rect2( 24, 0, 24, 3 )
 
 [node name="SixthPokemonSlot" type="Node2D" parent="."]
 position = Vector2( 119, 70 )
-script = ExtResource( 15 )
-menu_number = 5
 
 [node name="Background" type="Sprite" parent="SixthPokemonSlot"]
 position = Vector2( 44, 47 )
@@ -476,5 +549,3 @@ region_rect = Rect2( 24, 0, 24, 3 )
 position = Vector2( 211, 144 )
 texture = ExtResource( 13 )
 hframes = 2
-
-[editable path="FirstPokemonSlot"]

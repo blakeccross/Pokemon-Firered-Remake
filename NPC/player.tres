@@ -1,17 +1,16 @@
-[gd_resource type="Resource" load_steps=3 format=2]
+[gd_resource type="Resource" load_steps=3 format=3]
 
-[ext_resource path="res://npc_model.gd" type="Script" id=1]
-[ext_resource path="res://NPC/blue/blue_trainer_graphic.tscn" type="PackedScene" id=2]
+[ext_resource type="Script" path="res://scripts/npc_model.gd" id="1"]
+[ext_resource type="PackedScene" path="res://NPC/blue/blue_trainer_graphic.tscn" id="2"]
 
 [resource]
 script = ExtResource( 1 )
 id = ""
 name = ""
-movement_type = "FACE RIGHT"
-disable_collision = false
+movement_type = ""
 pokemon = [  ]
 items = [  ]
-is_player = true
+is_player = false
 beat_flag_mutations = [  ]
 loose_flag_mutations = [  ]
 battle_graphic = ExtResource( 2 )

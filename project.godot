@@ -6,88 +6,38 @@
 ;   [section] ; section goes between []
 ;   param=value ; assign values to parameters
 
-config_version=4
-
-_global_script_classes=[ {
-"base": "Control",
-"class": "Menu",
-"language": "GDScript",
-"path": "res://Battle/menu.gd"
-}, {
-"base": "Node2D",
-"class": "MoveGraphic",
-"language": "GDScript",
-"path": "res://moves/move_graphic.gd"
-}, {
-"base": "Resource",
-"class": "MoveModel",
-"language": "GDScript",
-"path": "res://moves/move_model.gd"
-}, {
-"base": "Resource",
-"class": "NPCModel",
-"language": "GDScript",
-"path": "res://npc_model.gd"
-}, {
-"base": "Node2D",
-"class": "PlayerGraphic",
-"language": "GDScript",
-"path": "res://NPC/red/player_graphic.gd"
-}, {
-"base": "Resource",
-"class": "PokemonModel",
-"language": "GDScript",
-"path": "res://pokemon/pokemon_model.gd"
-}, {
-"base": "Resource",
-"class": "TextModel",
-"language": "GDScript",
-"path": "res://text_model.gd"
-}, {
-"base": "Node2D",
-"class": "TrainerGraphic",
-"language": "GDScript",
-"path": "res://NPC/trainer_graphic.gd"
-}, {
-"base": "Tween",
-"class": "TweenEx",
-"language": "GDScript",
-"path": "res://world/Tween.gd"
-} ]
-_global_script_class_icons={
-"Menu": "",
-"MoveGraphic": "",
-"MoveModel": "",
-"NPCModel": "",
-"PlayerGraphic": "",
-"PokemonModel": "",
-"TextModel": "",
-"TrainerGraphic": "",
-"TweenEx": ""
-}
+config_version=5
 
 [application]
 
 config/name="Pokemon Fire Red Remake"
 run/main_scene="res://SceneManager.tscn"
+config/features=PackedStringArray("4.1")
+boot_splash/bg_color=Color(0, 0, 0, 1)
 
 [autoload]
 
 Utils="*res://Autoload/utils.gd"
-Flags="*res://flags.gd"
+DialogueManager="*res://addons/dialogue_manager/dialogue_manager.gd"
+GameState="*res://Autoload/game_state.gd"
+
+[dialogue_manager]
+
+general/states=["GameState"]
 
 [display]
 
+window/size/viewport_width=1920
+window/size/viewport_height=1080
+window/stretch/mode="canvas_items"
 window/size/width=240
 window/size/height=160
-window/size/test_width=1200
-window/size/test_height=800
-window/stretch/mode="2d"
-window/stretch/aspect="keep"
+window/size/test_width=240
+window/size/test_height=160
 
-[global]
+[editor_plugins]
 
-layer=false
+enabled=PackedStringArray("res://addons/dialogue_manager/plugin.cfg")
 
 [importer_defaults]
 
@@ -116,24 +66,28 @@ texture={
 
 enter={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777221,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194309,"physical_keycode":0,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
 }
 x={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":88,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":88,"physical_keycode":0,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
 }
 menu={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":16777221,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":4194309,"physical_keycode":0,"key_label":0,"unicode":0,"echo":false,"script":null)
+]
 }
 z={
 "deadzone": 0.5,
-"events": [ Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"alt":false,"shift":false,"control":false,"meta":false,"command":false,"pressed":false,"scancode":90,"physical_scancode":0,"unicode":0,"echo":false,"script":null)
- ]
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":90,"physical_keycode":0,"key_label":0,"unicode":122,"echo":false,"script":null)
+]
 }
+
+[internationalization]
+
+locale/translations_pot_files=PackedStringArray("res://oak_enter.dialogue", "res://dialogue/main.dialogue")
 
 [layer_names]
 
@@ -141,9 +95,14 @@ z={
 2d_physics/layer_2="World"
 2d_physics/layer_3="Ledge"
 2d_physics/layer_4="Door"
-2d_physics/layer_5="Items"
+2d_physics/layer_5="Water"
+
+[navigation]
+
+2d/default_link_connection_radius=1
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 2d/snapping/use_gpu_pixel_snap=true
 quality/2d/use_pixel_snap=true

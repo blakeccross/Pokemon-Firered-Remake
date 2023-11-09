@@ -1,6 +1,8 @@
 extends ColorRect
 
-export(float, 0.0, 1.0) var value setget set_value
+@export_range(0.0, 1.0) var value:
+	set(v):
+		set_value(v)
 
 func set_value(v:float) -> void:
 	value = v

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c5jc4mk4l6us6"
+path="res://.godot/imported/Pokemon FireRed & LeafGreen OST - Professor Oak's Laboratory.mp3-2ba1ef6a2dbd10bb9ee024f5f0a5d08d.mp3str"
+
+[deps]
+
+source_file="res://Assets/Buildings/pallet town 2/Pokemon FireRed & LeafGreen OST - Professor Oak's Laboratory.mp3"
+dest_files=["res://.godot/imported/Pokemon FireRed & LeafGreen OST - Professor Oak's Laboratory.mp3-2ba1ef6a2dbd10bb9ee024f5f0a5d08d.mp3str"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

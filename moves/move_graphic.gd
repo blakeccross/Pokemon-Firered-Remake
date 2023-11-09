@@ -6,7 +6,7 @@ signal done
 var defender_graphics:Node2D
 var attacker_graphics:Node2D
 var info_box:Node
-var tween_:TweenEx
+var tween_
 
 var delta_sum_ := 0.0
 
@@ -30,7 +30,7 @@ func wait_(delay:float) -> void:
 	tween_.wait(delay)
 
 func _ready():
-	tween_ = TweenEx.new()
+	tween_ = create_tween()
 	add_child(tween_)
 
 func _process(delta) -> void:
